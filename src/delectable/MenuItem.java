@@ -10,7 +10,7 @@ public class MenuItem {
 	
 	public MenuItem(String name, float price,int minQty, int type )
 	{
-		 if (validateType(type)) {
+		 if (!validateType(type)) {
 		      throw new IllegalArgumentException("Food category is invalid.");
 		    }
 		 this.name = name;
