@@ -1,4 +1,4 @@
-package Delectable;
+package delectable;
 
 public class MenuItem {
 
