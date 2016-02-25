@@ -1,25 +1,18 @@
 package delectable;
 
 public class Menu {
-	class item{
-	private String itemName;
-	private String price;
-	private String itemType;
-	item()
-	{
-		
-	}
-	}
-	item a = new item();
 	
-	public boolean CreateMenu()
+	private int NoOfItems;
+	
+	
+	public Menu()
 	{
-		boolean successFlag;
-		successFlag = true;
 		
+	}
+	
+	public boolean AddItem(MenuItem item)
+	{
 		
-		
-		return successFlag;
 	}
 
 }
