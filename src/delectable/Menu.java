@@ -12,7 +12,7 @@ public class Menu {
 	
 	public boolean AddItem(MenuItem item)
 	{
-		
+		return true;
 	}
 
 }
