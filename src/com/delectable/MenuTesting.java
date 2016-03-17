@@ -1,4 +1,4 @@
-package delectable;
+package com.delectable;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,7 @@ public class MenuTesting {
 	public void setUp() throws Exception {
 	}
 
+	
 	@After
 	public void tearDown() throws Exception {
 	}
