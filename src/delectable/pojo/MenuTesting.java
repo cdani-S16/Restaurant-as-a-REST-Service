@@ -19,9 +19,9 @@ public class MenuTesting {
 
 	@Test
 	public void test() {
-		MenuItem testMenuItem = new MenuItem("John", 45, 2, 2);
-		Menu testMenu = new Menu(5);
-		testMenu.AddItem(testMenuItem);
+		//MenuItem testMenuItem = new MenuItem("John", 45, 2, 2);
+		//Menu testMenu = new Menu(5);
+		//testMenu.AddItem(testMenuItem);
 	}
 
 }
