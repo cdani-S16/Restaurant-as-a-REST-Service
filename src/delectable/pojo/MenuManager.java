@@ -1,26 +1,28 @@
 package delectable.pojo;
 import java.util.*;
 
-public class Menu {
+import delectable.dto.MenuItemDTO;
+
+public class MenuManager {
 	
-	public int maxId;
-	ArrayList<MenuItem> menuItems;
-	
-	public Menu(int noItems)
+
+	private static List<MenuItem> menuItems = new ArrayList<MenuItem>();
+	 
+	public MenuManager(int noItems)
 	{
-		maxId = 100;
-		menuItems = new ArrayList<MenuItem>();
+		//menuItems = new ArrayList<MenuItem>();
 	}
 	
-	public int AddItem(MenuItem item)
+	public int AddItem(MenuItemDTO item)
 	{
-		int menuItemId;
-		menuItemId = maxId;
-		item.setId(menuItemId);
-		menuItems.add(item);
-		maxId++;
-		return menuItemId;
+		MenuItem mi = new MenuItem(item);
+		menuItems.add(mi);
+		return mi.getId();
 	}
+	
+    public List<MenuItem> getAllMenuItems() {
+        return(menuItems);
+    }
 
 	public boolean AlterItem(MenuItem item)
 	{
@@ -47,7 +49,7 @@ public class Menu {
 		return itemIndex;
 	}
 
-	public ArrayList<MenuItem> getMenu()
+	public List<MenuItem> getMenu()
 	{
 		return menuItems;
 	}

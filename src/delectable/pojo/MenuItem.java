@@ -25,7 +25,9 @@ public class MenuItem {
 		price_per_person = mi.price_per_person;
 		minimum_order = mi.minimum_order;
 		categories = mi.categories;
+		this.id = UniqueIdGenerator.getUniqueMenuID();
 	}
+	
 	public int getId() {
 		return id;
 	}

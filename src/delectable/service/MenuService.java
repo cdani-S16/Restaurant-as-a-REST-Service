@@ -58,12 +58,13 @@ public class MenuService {
 	   }
 	   
 	   @POST
-		@Consumes(MediaType.APPLICATION_JSON)
-		public Response addItem(InputStream incomingData) throws JsonParseException, JsonMappingException, IOException {
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   public Response addItem(InputStream incomingData) 
+			   throws JsonParseException, JsonMappingException, IOException {
 		   
 		   ObjectMapper mapper = new ObjectMapper();
 		   
-			StringBuilder jsonInString = new StringBuilder();
+		   StringBuilder jsonInString = new StringBuilder();
 			/*try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
 				String line = null;
@@ -73,20 +74,21 @@ public class MenuService {
 			} catch (Exception e) {
 				System.out.println("Error Parsing: - ");
 			}*/
-			jsonInString = new StringBuilder();
-			jsonInString.append("{\"abc\":22,\"id\":5,\"name\":null,\"price_per_person\":0,\"minimum_order\":0,\"categories\":null}");
-			System.out.println("Data Received: " + jsonInString.toString());
-			MenuItemDTO myObjects = new MenuItemDTO(); 
-			myObjects = mapper.readValue(jsonInString.toString(), MenuItemDTO.class);
+		   //jsonInString = new StringBuilder();
+		   jsonInString.append("{\"abc\":22,\"id\":5,\"name\":null,\"price_per_person\":0,\"minimum_order\":0,\"categories\":null}");
+		   System.out.println("Data Received: " + jsonInString.toString());
+		   MenuItemDTO myObjects = new MenuItemDTO(); 
+		   myObjects = mapper.readValue(jsonInString.toString(), MenuItemDTO.class);
+		   System.out.println("The myObjects data, : " + myObjects.toString());
 			//call to add the item and then return the id
 			//int id;
-			MenuIdDTO myID = new MenuIdDTO();
-			myID.id = 21;
+		   MenuIdDTO myID = new MenuIdDTO();
+		   myID.id = 21;
 			//mapper.readValue(MenuIdInterface, MenuIdInterface.class);
-			String jsonOutIdString = new String();
-			jsonOutIdString = mapper.writeValueAsString(myID);
-			return Response.status(201).entity(jsonOutIdString).build();
-		}
+		   String jsonOutIdString = new String();
+		   jsonOutIdString = mapper.writeValueAsString(myID);
+		   return Response.status(201).entity(jsonOutIdString).build();
+	   }
 	 
 	   
 	   @PUT
