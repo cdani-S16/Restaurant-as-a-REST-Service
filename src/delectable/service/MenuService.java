@@ -1,9 +1,11 @@
 package delectable.service;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -24,22 +26,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import delectable.dto.MenuIdDTO;
 import delectable.dto.MenuItemDetailDTO;
+import delectable.logic.MenuManager;
 import delectable.dto.MenuItemDTO;
+
+import delectable.pojo.*;
 
 @Path("/menu")
 public class MenuService {
-	
+	MenuManager menu = new MenuManager();
 	   @GET
 	   @Produces(MediaType.APPLICATION_JSON)
-	   public Response getMenu() throws JsonProcessingException{
- 
+	   public Response getMenu() throws JsonProcessingException, IllegalAccessException, InvocationTargetException{
+		   /*
 		   MenuItemDTO[] mn = new MenuItemDTO[2];
 		   mn[0] = new MenuItemDTO(); 
 		   mn[1] = new MenuItemDTO();
 		   ObjectMapper mapper = new ObjectMapper();
 		   String jsonInString = new String();
 		   jsonInString = mapper.writeValueAsString(mn);
- 
+		   */
+		   ObjectMapper mapper = new ObjectMapper();
+		   String jsonInString = new String();
+		   List<MenuItemDTO> mi = menu.getAllMenuItems();
+		   jsonInString = mapper.writeValueAsString(mi);
 		   return Response.status(200).entity(jsonInString).build();
 	   }
 	   
@@ -60,12 +69,13 @@ public class MenuService {
 	   @POST
 	   @Consumes(MediaType.APPLICATION_JSON)
 	   public Response addItem(InputStream incomingData) 
-			   throws JsonParseException, JsonMappingException, IOException {
+			   throws JsonParseException, JsonMappingException, IOException, IllegalAccessException, InvocationTargetException {
 		   
 		   ObjectMapper mapper = new ObjectMapper();
+		   MenuItemDTO mi = new MenuItemDTO();
 		   
 		   StringBuilder jsonInString = new StringBuilder();
-			/*try {
+			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
 				String line = null;
 				while ((line = in.readLine()) != null) {
@@ -73,9 +83,9 @@ public class MenuService {
 				}
 			} catch (Exception e) {
 				System.out.println("Error Parsing: - ");
-			}*/
-		   //jsonInString = new StringBuilder();
-		   jsonInString.append("{\"abc\":22,\"id\":5,\"name\":null,\"price_per_person\":0,\"minimum_order\":0,\"categories\":null}");
+			}
+		   
+		   /*jsonInString.append("{\"abc\":22,\"id\":5,\"name\":null,\"price_per_person\":0,\"minimum_order\":0,\"categories\":null}");
 		   System.out.println("Data Received: " + jsonInString.toString());
 		   MenuItemDTO myObjects = new MenuItemDTO(); 
 		   myObjects = mapper.readValue(jsonInString.toString(), MenuItemDTO.class);
@@ -83,10 +93,13 @@ public class MenuService {
 			//call to add the item and then return the id
 			//int id;
 		   MenuIdDTO myID = new MenuIdDTO();
-		   myID.id = 21;
+		   myID.id = 21;*/
 			//mapper.readValue(MenuIdInterface, MenuIdInterface.class);
+			mi = mapper.readValue(jsonInString.toString(), MenuItemDTO.class);
+		   int miID = menu.AddItem(mi);
+			//int miID = 2;
 		   String jsonOutIdString = new String();
-		   jsonOutIdString = mapper.writeValueAsString(myID);
+		   jsonOutIdString = mapper.writeValueAsString(miID);
 		   return Response.status(201).entity(jsonOutIdString).build();
 	   }
 	 

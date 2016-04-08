@@ -1,7 +1,5 @@
 package delectable.pojo;
 
-import delectable.dto.*;
-
 public class MenuItem {
 /*"id": 123,
   	"name": "Lasagna",
@@ -18,13 +16,10 @@ public class MenuItem {
 	private int price_per_person;
 	private int minimum_order;
 	private String[] categories;
+
 	
-	MenuItem(MenuItemDTO mi)
+	public MenuItem()
 	{
-		name = mi.name;
-		price_per_person = mi.price_per_person;
-		minimum_order = mi.minimum_order;
-		categories = mi.categories;
 		this.id = UniqueIdGenerator.getUniqueMenuID();
 	}
 	

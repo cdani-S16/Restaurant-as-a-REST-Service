@@ -14,8 +14,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MenuItemDTO {
 	
-
-		public int abc;
 		public int id;
 		public String name;
 		public int price_per_person;
