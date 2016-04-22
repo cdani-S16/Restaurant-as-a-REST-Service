@@ -53,15 +53,5 @@ public class MenuItemIdDTO implements Serializable{
 	public List<CategoriesDTO> getCategories() {
 		return categories;
 	}
-	
-	
-	
-/*"categories": [{
-		"name": "organic"
-	}, {
-		"name": "vegetarian"
-	}]*/
-
-
 }
 

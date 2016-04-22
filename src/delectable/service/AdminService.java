@@ -43,16 +43,9 @@ import delectable.patchhelper.PATCH;
 @Path("/admin")
 public class AdminService {
 
-   @PUT
-   @Path("/menu")
-   @Consumes(MediaType.APPLICATION_JSON)
-   public Response addItem(InputStream incomingData,  @Context UriInfo uriInfo) 
-		   throws JsonParseException, JsonMappingException, IOException, IllegalAccessException, InvocationTargetException {
-	   
-	   ObjectMapper mapper = new ObjectMapper();
-	   MenuItemDTO mi = new MenuItemDTO();
-	   
-	   StringBuilder jsonInString = new StringBuilder();
+	public StringBuilder ExtractString(InputStream incomingData)
+	{
+		StringBuilder jsonInString = new StringBuilder();
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
 			String line = null;
@@ -62,6 +55,34 @@ public class AdminService {
 		} catch (Exception e) {
 			System.out.println("Error Parsing: - ");
 		}
+		return jsonInString;
+	}
+	
+	public JsonNode ExtractJSONNODE(String jsonInString)
+	{
+		JsonNode jNode = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+		   jNode = mapper.readTree(jsonInString.toString());
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	   return jNode;
+	}
+	
+   @PUT
+   @Path("/menu")
+   @Consumes(MediaType.APPLICATION_JSON)
+   public Response addItem(InputStream incomingData,  @Context UriInfo uriInfo) 
+		   throws JsonParseException, JsonMappingException, IOException, IllegalAccessException, InvocationTargetException {
+	   
+	   ObjectMapper mapper = new ObjectMapper();
+	   MenuItemDTO mi = new MenuItemDTO();
+	   
+	   StringBuilder jsonInString = ExtractString(incomingData);
+
 	   mi = mapper.readValue(jsonInString.toString(), MenuItemDTO.class);
 	   IdDTO miID = MenuManager.getMenu().AddItem(mi);
 	   
@@ -81,16 +102,8 @@ public class AdminService {
 	   ObjectMapper mapper = new ObjectMapper();
 	   MenuItemIdPriceDTO mi = new MenuItemIdPriceDTO();
 	   
-	   StringBuilder jsonInString = new StringBuilder();
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
-			String line = null;
-			while ((line = in.readLine()) != null) {
-				jsonInString.append(line);
-			}
-		} catch (Exception e) {
-			System.out.println("Error Parsing: - ");
-		}
+	   StringBuilder jsonInString = ExtractString(incomingData);
+	   
 	   if(jsonInString.length() == 0)
 		   return Response.noContent().entity("").build();
 	   try{
@@ -99,16 +112,8 @@ public class AdminService {
 	   {
 		   return Response.status(400).entity("").build();
 	   }
-	   
 	   //reading jason as a tree and then traversing
-	   JsonNode node = null ;
-	   try {
-		node = mapper.readTree(jsonInString.toString());
-	   } catch (JsonProcessingException e) {
-		e.printStackTrace();
-	   } catch (IOException e) {
-		e.printStackTrace();
-	   }
+	   JsonNode node = ExtractJSONNODE(jsonInString.toString());
 	   if(node.get("price_per_person") == null || node.get("id") == null || node.size() > 2){
 		   return Response.status(400).entity("").build();    
 	   }
@@ -119,7 +124,6 @@ public class AdminService {
 	   {
 		   return Response.status(400).entity("").build();
 	   }
-	   
 	   UriBuilder builder = uriInfo.getAbsolutePathBuilder();
        builder.path(Integer.toString(mi.getId()));
 	   return Response.created(builder.build()).build();
@@ -131,7 +135,7 @@ public class AdminService {
    @Produces(MediaType.APPLICATION_JSON)
    public Response getSurcharge() throws JsonProcessingException
    {
-	   AdminSchrDTO sch = MenuManager.getMenu().getSurcharge();
+	   AdminSchrDTO sch = MenuManager.getSurcharge();
 	   ObjectMapper mapper = new ObjectMapper();
 	   String jsonInString = new String();
 	   jsonInString = mapper.writeValueAsString(sch);
@@ -146,17 +150,8 @@ public class AdminService {
 	   
 	   ObjectMapper mapper = new ObjectMapper();
 	   AdminSchrDTO scr = new AdminSchrDTO();
+	   StringBuilder jsonInString = ExtractString(incomingData);
 	   
-	   StringBuilder jsonInString = new StringBuilder();
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
-			String line = null;
-			while ((line = in.readLine()) != null) {
-				jsonInString.append(line);
-			}
-		} catch (Exception e) {
-			System.out.println("Error Parsing: - ");
-		}
 	   if(jsonInString.length() == 0)
 		   return Response.noContent().entity("").build();
 	   try{
@@ -167,14 +162,7 @@ public class AdminService {
 	   }
 	   
 	   //reading json as a tree and then traversing
-	   JsonNode node = null ;
-	   try {
-		node = mapper.readTree(jsonInString.toString());
-	   } catch (JsonProcessingException e) {
-		e.printStackTrace();
-	   } catch (IOException e) {
-		e.printStackTrace();
-	   }
+	   JsonNode node = ExtractJSONNODE(jsonInString.toString());
 	   if(node.get("surcharge") == null || node.size() > 1){
 		   return Response.status(400).entity("").build();    
 	   }
@@ -186,11 +174,7 @@ public class AdminService {
 		   return Response.status(400).entity("").build();
 	   }
 	   
-	   UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-	   System.out.println(uriInfo.getBaseUri());
-	   //System.out.println(uriInfo.get);
-	   //System.out.println(uriInfo.getBaseUri());
-	   
+	   UriBuilder builder = uriInfo.getAbsolutePathBuilder();	   
 	   return Response.created(builder.build()).build();
    }
    
@@ -202,16 +186,8 @@ public class AdminService {
 	   ObjectMapper mapper = new ObjectMapper();
 	   IdDTO orderId = new IdDTO();
 	   
-	   StringBuilder jsonInString = new StringBuilder();
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
-			String line = null;
-			while ((line = in.readLine()) != null) {
-				jsonInString.append(line);
-			}
-		} catch (Exception e) {
-			System.out.println("Error Parsing: - ");
-		}
+	   StringBuilder jsonInString = ExtractString(incomingData);
+	   
 	   if(jsonInString.length() == 0)
 		   return Response.noContent().entity("").build();
 	   try{
@@ -222,14 +198,8 @@ public class AdminService {
 	   }
 	   
 	   //reading json as a tree and then traversing
-	   JsonNode node = null ;
-	   try {
-		node = mapper.readTree(jsonInString.toString());
-	   } catch (JsonProcessingException e) {
-		e.printStackTrace();
-	   } catch (IOException e) {
-		e.printStackTrace();
-	   }
+	   JsonNode node = ExtractJSONNODE(jsonInString.toString());
+	   
 	   if(node.get("id") == null || node.size() > 1 || node.get("id").asInt()!= orderId.getId()){
 		   return Response.status(400).entity("").build();    
 	   }

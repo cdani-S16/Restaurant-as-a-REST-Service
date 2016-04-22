@@ -21,8 +21,6 @@ public class Order {
 
 	private PersonalInfo personal_info;
 	private List<OrderDetailMenu> order_detail;
-	//private PersonalInfo personal_info;
-	
 	
 	public int getId() {
 		return id;
@@ -103,8 +101,6 @@ public class Order {
 	public void setStatusManual(String status) throws Exception {
 		DateFormat df = new SimpleDateFormat("yyyyMMdd");
 		Date dateobj = new Date();
-		//System.out.println("Date " + df.format(dateobj)+ 
-		//		" exisint date in order" + getDelivery_date());
 		if(this.getDelivery_date().equals(df.format(dateobj)) 
 				&& status.equals("cancelled"))
 			throw new Exception("Cannot cancel, it's due today");
@@ -122,16 +118,7 @@ public class Order {
 	public void setpInfo(PersonalInfo personal_info) {
 		this.personal_info = personal_info;
 	}
-	/*
-	public List<OrderDetail> getOrder_detail() {
-		/*List<OrderDetail> copy_of_order_detail = new ArrayList<OrderDetail>(order_detail.size());
-		for (OrderDetail foo: order_detail) {
-			boolean add = copy_of_order_detail.add((OrderDetail)foo.clone());
-		}
-	return copy_of_order_detail;
-		return order_detail;
-	}
-	 */
+
 	public void setoDetail(List<OrderDetailMenu> order_detail) {
 		this.order_detail = order_detail;
 	}
@@ -139,10 +126,4 @@ public class Order {
 	public boolean matchesId(int lid) {
         return(lid == this.id);
     }
-    /*public Order()
-    {
-    	personal_info = new PersonalInfo();
-    	order_detail = new ArrayList<OrderDetailMenu>();
-    }*/
-
 }

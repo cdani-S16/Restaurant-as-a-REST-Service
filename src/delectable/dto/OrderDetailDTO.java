@@ -84,13 +84,4 @@ public class OrderDetailDTO {
 		this.note = note;
 	}
 
-	/*public void settheOrderDetail(List<OrderDetailMenuDTO> a){
-		for(int i = 0; i< a.size();i++)
-		{
-			order_detail.add(a.get(i));
-		}
-	}*/
-	
-	
-
 }

@@ -30,8 +30,4 @@ public class ReportOrderDTO {
 	public void setOrders(List<OrderDetailDTO> orders) {
 		this.orders = orders;
 	}
-	
-	
-	
-
 }

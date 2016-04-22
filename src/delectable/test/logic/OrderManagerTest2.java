@@ -62,7 +62,6 @@ public class OrderManagerTest2 {
 		try{
 			DateFormat df = new SimpleDateFormat("yyyyMMdd");
 			Date dateobj = new Date();
-			//System.out.println(df.format(dateobj));
 			ordToADD.setDelivery_date(df.format(dateobj));
 			OrderManager.getOrderMan().addOrder(ordToADD);
 			IdDTO idD = new IdDTO();

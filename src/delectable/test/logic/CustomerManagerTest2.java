@@ -34,8 +34,12 @@ public class CustomerManagerTest2 {
 	
 	@Test
 	public void testAddCustomer() throws IllegalAccessException, InvocationTargetException {
+		//add a customer and test it 
 		CustomerManager.getCusMan().addCustomer(pi);
-		//assertEquals(1,1);
+		boolean compare = false;
+		if(CustomerManager.getCusMan().getCustomer(0).getEmail().equals("test@email.com"))
+			compare = true;
+		assertEquals(compare, true);
 	}
 	
 	@Test
@@ -46,40 +50,44 @@ public class CustomerManagerTest2 {
 		CustomerDetailDTO cDetDTO; 
 		cDetDTO = CustomerManager.getCusMan().getCustomer(0);
 		assertEquals(cDetDTO.getEmail().equals("test@email.com"),true);
-		
-		 List<CustomerDTO> custList = CustomerManager.getCusMan().getAllCustomersMatching("test");
-		 assertEquals(custList.size(),1);
-		 custList = CustomerManager.getCusMan().getAllCustomersMatching("John");
-		 assertEquals(custList.size(),1);
-		 custList = CustomerManager.getCusMan().getAllCustomersMatching("Random");
-		 assertEquals(custList.size(),0);
+
+		List<CustomerDTO> custList = CustomerManager.getCusMan().getAllCustomersMatching("test");
+		assertEquals(custList.size(),1);
+		custList = CustomerManager.getCusMan().getAllCustomersMatching("John");
+		assertEquals(custList.size(),1);
+		custList = CustomerManager.getCusMan().getAllCustomersMatching("Random");
+		assertEquals(custList.size(),0);
 		 
-		 //adding order and testing if it appeared in customers
-		 //adding menu required by the order
-			MenuItemDTO tempMenuItem = new MenuItemDTO();
-			tempMenuItem.setMinimum_order(2);
-			tempMenuItem.setPrice_per_person(2.5f);
-			MenuManager.getMenu().AddItem(tempMenuItem);
-			//adding order
-			OrderDTO ordToADD = new OrderDTO();
-			ordToADD.setDelivery_address("sample address");
-			ordToADD.setDelivery_date("20160424");
-			//sample personal info
-			PersonalInfoDTO pi = new PersonalInfoDTO(); 
-			pi = new PersonalInfoDTO();
-			pi.setEmail("addingcustomer@throughanorder.com");
-			pi.setName("Cust Order");
-			pi.setPhone("+1264511612");
-			ordToADD.setPersonal_info(pi);
-			List<OrderDetailMenuDTO> tempOrderList = new ArrayList<OrderDetailMenuDTO>();
-			OrderDetailMenuDTO item = new OrderDetailMenuDTO();
-			item.setId(0);
-			item.setCount(2);
-			tempOrderList.add(item);
-			ordToADD.setOrder_detail(tempOrderList);
-			OrderManager.getOrderMan().addOrder(ordToADD);
-		 custList = CustomerManager.getCusMan().getAllCustomersMatching("order");
-		 assertEquals(custList.size(),1);
+		//adding order and testing if it appeared in customers
+		//adding menu required by the order
+		MenuItemDTO tempMenuItem = new MenuItemDTO();
+		tempMenuItem.setMinimum_order(2);
+		tempMenuItem.setPrice_per_person(2.5f);
+		MenuManager.getMenu().AddItem(tempMenuItem);
+		//adding order
+		OrderDTO ordToADD = new OrderDTO();
+		ordToADD.setDelivery_address("sample address");
+		ordToADD.setDelivery_date("20160424");
+		//sample personal info
+		PersonalInfoDTO pi = new PersonalInfoDTO(); 
+		pi = new PersonalInfoDTO();
+		pi.setEmail("addingcustomer@throughanorder.com");
+		pi.setName("Cust Order");
+		pi.setPhone("+1264511612");
+		ordToADD.setPersonal_info(pi);
+		List<OrderDetailMenuDTO> tempOrderList = new ArrayList<OrderDetailMenuDTO>();
+		OrderDetailMenuDTO item = new OrderDetailMenuDTO();
+		item.setId(0);
+		item.setCount(2);
+		tempOrderList.add(item);
+		ordToADD.setOrder_detail(tempOrderList);
+		OrderManager.getOrderMan().addOrder(ordToADD);
+		custList = CustomerManager.getCusMan().getAllCustomersMatching("order");
+		assertEquals(custList.size(),1);
+		boolean compare = false;
+		if(custList.get(0).getName().equals("Cust Order"))
+			compare = true;
+		assertEquals(compare, true);
 	}
 
 

@@ -25,7 +25,6 @@ public class ReportManager {
 
 	private static ReportManager reportMan = null;
 	private static List<ReportTypes> reportTypes = null;
-	//private static ReportOrder reportOrder = null;
 	
 	public static ReportManager getReportMan()
 	{
@@ -40,13 +39,6 @@ public class ReportManager {
 			reportTypes = new ArrayList<ReportTypes>();
 		return reportTypes;
 	}
-	
-	/*public static ReportOrder getReportOrder()
-	{
-		if(reportOrder == null)
-			reportOrder = new ReportOrder();
-		return reportOrder;
-	}*/
 	
 	public List<ReportTypes> getReportTypes() throws IllegalAccessException, InvocationTargetException
 	{
@@ -118,53 +110,25 @@ public class ReportManager {
 		return rODTO;
 	}
 
-	/*private void populateReport(String date) throws IllegalAccessException, InvocationTargetException {
-		reportOrder = new ReportOrder();
-		for(int i = 0; i< OrderManager.Orders.size(); i++)
-		{
-			Order temp = new Order();
-			//    	BeanUtils.copyProperties(orderDetailed, Orders.get(id));
-			BeanUtils.copyProperties(temp, OrderManager.Orders.get(i));
-			reportOrder.getOrders().add(temp);
-			//ReportOrder tempRO = new ReportOrder();
-			
-			//reportOrders;
-		}
-	}*/
 	
 	public RevenueReportDTO getRevenueReport(String startDate, String endDate) throws ParseException, IllegalAccessException, InvocationTargetException
 	{
 		RevenueReportDTO revRep = new RevenueReportDTO();
-		/*
-		 * 	
-		private int id;
-		private String name;
-		private String start_date;
-		private String end_date;
-		private int orders_placed;
-		private int orders_cancelled;
-		private int orders_open;
-		private int food_revenue;
-		private int surcharge_revenue;
-		 */
+
 		revRep.setEnd_date(endDate);
 		revRep.setStart_date(startDate);
 		
-	   DateFormat df = new SimpleDateFormat("yyyyMMdd");
-	   Date End_date = new Date();
-	   Calendar calendar = new GregorianCalendar();
-	   calendar.setTime( df.parse(endDate));
-	   calendar.add(Calendar.DATE, 1);
-	   End_date = calendar.getTime();
-	   
-	   Date Start_date = new Date();
-	   calendar.setTime( df.parse(startDate));
-	   calendar.add(Calendar.DATE, -1);
-	   Start_date = calendar.getTime();
-		
-		/*System.out.println("the statt and end data " 
-				+ df.format(Start_date) 
-				+ df.format(End_date));*/
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		Date End_date = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime( df.parse(endDate));
+		calendar.add(Calendar.DATE, 1);
+		End_date = calendar.getTime();
+   
+		Date Start_date = new Date();
+		calendar.setTime( df.parse(startDate));
+		calendar.add(Calendar.DATE, -1);
+		Start_date = calendar.getTime();
 
 		revRep.setFood_revenue(0);
 		revRep.setOrders_cancelled(0);
@@ -201,55 +165,32 @@ public class ReportManager {
 	public ReportAllOrdersDTO getOrdersReport(String startDate, String endDate) throws ParseException, IllegalAccessException, InvocationTargetException
 	{
 		ReportAllOrdersDTO ordsRep = new ReportAllOrdersDTO();
-		 /*{
-			  	"id": 804,
-			  	"name": "Order report",
-			  	"start_date": "20160101",
-			  	"end_date": "20160331",
-			  	"orders_placed": 47,
-			  	"orders_cancelled": 2,
-			  	"orders_open": 45,
-				"item_orders" : [
-				{
-					"id"
-					"name":
-					"count":
-				},
-				{	
-					"id"
-					"name":
-					"count"
-				},
-				]
-			  }*/
+		
 		ordsRep.setEnd_date(endDate);
 		ordsRep.setStart_date(startDate);
 		List<ReportMenuItemOrdersDTO> menuList = new ArrayList<ReportMenuItemOrdersDTO>();
+				
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		Date End_date = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime( df.parse(endDate));
+		calendar.add(Calendar.DATE, 1);
+		End_date = calendar.getTime();
+		   
+		Date Start_date = new Date();
+		calendar.setTime( df.parse(startDate));
+		calendar.add(Calendar.DATE, -1);
+		Start_date = calendar.getTime();
 		
-	   DateFormat df = new SimpleDateFormat("yyyyMMdd");
-	   Date End_date = new Date();
-	   Calendar calendar = new GregorianCalendar();
-	   calendar.setTime( df.parse(endDate));
-	   calendar.add(Calendar.DATE, 1);
-	   End_date = calendar.getTime();
-	   
-	   Date Start_date = new Date();
-	   calendar.setTime( df.parse(startDate));
-	   calendar.add(Calendar.DATE, -1);
-	   Start_date = calendar.getTime();
-		
-		/*System.out.println("the statt and end data " 
-				+ df.format(Start_date) 
-				+ df.format(End_date));*/
+		ordsRep.setOrders_cancelled(0);
+		ordsRep.setOrders_placed(0);
+		ordsRep.setOrders_open(0);
 
-	   ordsRep.setOrders_cancelled(0);
-	   ordsRep.setOrders_placed(0);
-	   ordsRep.setOrders_open(0);
 		for(int j=0; j< MenuManager.getMenu().getAllMenuItems().size(); j++)
 		{
 			ReportMenuItemOrdersDTO temp = new ReportMenuItemOrdersDTO();
 			BeanUtils.copyProperties(temp, MenuManager.getMenu().getMenuItem(j));
-			//temp.setCount(0);
+			
 			int tempCount = 0;
 			for(int i = 0; i< OrderManager.getOrders().size(); i++)
 			{
@@ -260,12 +201,6 @@ public class ReportManager {
 				if(Start_date.before(Deliv_Date)
 						&& End_date.after(Deliv_Date))
 				{	
-					//revRep.setOrders_placed(revRep.getOrders_placed() + 1);
-					if(OrderManager.getOrderMan().getOrder(i).getStatus()
-							.equals("cancelled"))
-					{
-						//revRep.setOrders_cancelled(revRep.getOrders_cancelled() + 1);
-					}
 					if(OrderManager.getOrderMan().getOrder(i).getStatus().equals("open"))
 					{
 						for(int k = 0; k < OrderManager.getOrderMan().getOrder(i)

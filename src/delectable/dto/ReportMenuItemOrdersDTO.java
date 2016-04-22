@@ -23,7 +23,4 @@ public class ReportMenuItemOrdersDTO {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
-	
-	
 }

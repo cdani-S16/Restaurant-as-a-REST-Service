@@ -5,16 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuItem  implements Serializable{
-/*"id": 123,
-  	"name": "Lasagna",
-  	"price_per_person": 2.49,
-  	"minimum_order": 6,
-  	"categories": [{
-  		"name": "organic"
-  	}, {
-  		"name": "vegetarian"
-  	}]*/
-	
 	private int id;
 	private String name;
 	private float price_per_person;

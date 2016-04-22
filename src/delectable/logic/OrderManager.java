@@ -57,12 +57,9 @@ public class OrderManager {
     	
     	BeanUtils.copyProperties(orderDetailed, getOrders().get(id));
     	orderDetailed.setOrder_detail(new ArrayList<OrderDetailMenuDTO>());
-    	
-    	//System.out.println(" the number of items in the orders " + Orders.get(id).getOrder_detail().size());
     	for(int i = 0; i< getOrders().get(id).getOrder_detail().size(); i++)
     	{	
     		OrderDetailMenuDTO temp = new OrderDetailMenuDTO();
-    	
     		BeanUtils.copyProperties(temp, getOrders().get(id).getOrder_detail().get(i));
     		orderDetailed.getOrder_detail().add(temp);
     	}
@@ -70,20 +67,10 @@ public class OrderManager {
     	PersonalInfoDTO pi = new PersonalInfoDTO();
     	BeanUtils.copyProperties(pi, getOrders().get(id).getPersonal_info());
     	orderDetailed.setOrdered_by(pi);
-    	//BeanUtils.copyProperties(orderDetailed.getOrdered_by(), Orders.get(id).getPersonal_info());
-    	
-    	//orderDetailed.settheOrderDetail(Orders.get(id).getOrder_detail());
         return(orderDetailed);
-        
-        /*
-         *     	MenuItemDetailDTO miDto = new MenuItemDetailDTO();
-    	BeanUtils.copyProperties(miDto,menuItems.get(id));
-    	return miDto;
-         */
     }
     
     public OrderAddedDTO addOrder(OrderDTO o) throws Exception {
-    	//System.out.println("inside add order");
 		Order oi = new Order();
 		List<OrderDetailMenu> od = new ArrayList<OrderDetailMenu>();
 		PersonalInfo pi = new PersonalInfo();
@@ -101,13 +88,10 @@ public class OrderManager {
     	}
     	
 		BeanUtils.copyProperties(pi, o.getPersonal_info());
-		
 		//copy contents from personal info to personal info
-		
 		oi.setOrderedBy(o.getPersonal_info().getEmail());
 		oi.setpInfo(pi);
 		oi.setoDetail(od);
-		
 		oi.setAmount(calcAmount(oi));
 		
 		DateFormat df = new SimpleDateFormat("yyyyMMdd");
@@ -116,21 +100,16 @@ public class OrderManager {
 		oi.setOrder_date(df.format(dateobj));
 		oi.setOrderedBy(o.getPersonal_info().getEmail());
 		oi.setDelivery_date(o.getDelivery_date());
-		//System.out.println(" incoming and just set dates " + o.getDelivery_date() 
-			//	+ oi.getDelivery_date());
-	   oi.setStatusManual("open");
+		oi.setStatusManual("open");
 		
-
-	   //delivDate = calendar.getTime();
-	   Date delivDate = new Date();
-	   Calendar calendar = new GregorianCalendar();
-	   calendar.setTime(df.parse(oi.getDelivery_date()));
-	   //delivDate = calendar.getTime();
+		Date delivDate = new Date();
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(df.parse(oi.getDelivery_date()));
+		//delivDate = calendar.getTime();
 		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || 
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 			oi.setSurcharge(((MenuManager.getSurcharge().getSurcharge()/100)) * oi.getAmount());
 		}
-		
 		
 		oi.setId(UniqueIdGenerator.getUniqueOrderID());
 		getOrders().add(oi);
@@ -140,23 +119,9 @@ public class OrderManager {
 		   
     	OrderAddedDTO oa = new OrderAddedDTO();
     	oa.setId(oi.getId());
-    	//System.out.println("finished add order");
     	return(oa);
     }
 
-    /*public Order getOrderDetail(int oid) {
-        return(findById(oid));
-    }
-
-    private Order findById(int lid) {
-        Iterator<Order> oli = Orders.listIterator();
-        while(oli.hasNext()) {
-        	Order o = oli.next();
-            if(o.matchesId(lid)) return(o);
-        }
-        return(new NullOrderDTO());
-    }*/
-    
     public void CancelOrder(IdDTO order) throws Exception
     {
     	ChangeStatus(order, "cancelled");
@@ -179,7 +144,6 @@ public class OrderManager {
     		int menuId = calcOrdr.getOrder_detail().get(i).getId();
 			totAmt = totAmt + (MenuManager.getMenu().getPrice(menuId) * calcOrdr.getOrder_detail().get(i).getCount());
 		}
-    	
     	return totAmt;
 	}
     

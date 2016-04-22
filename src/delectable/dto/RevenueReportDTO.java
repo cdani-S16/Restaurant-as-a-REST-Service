@@ -2,19 +2,6 @@ package delectable.dto;
 
 public class RevenueReportDTO {
 
-	/*
-	 *  {
-  	"id": 803,
-  	"name": "Revenue report",
-  	"start_date": "20160101",
-  	"end_date": "20160331",
-  	"orders_placed": 47,
-  	"orders_cancelled": 2,
-  	"orders_open": 45,
-  	"food_revenue": 513.98,
-  	"surcharge_revenue": 15
-  }
-	 */
 	
 	private int id;
 	private String name;
@@ -79,7 +66,4 @@ public class RevenueReportDTO {
 	public void setSurcharge_revenue(float f) {
 		this.surcharge_revenue = f;
 	}
-	
-	
-	
 }

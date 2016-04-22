@@ -46,8 +46,6 @@ public class ReportManagerTest {
 					,"Orders delivery report");
 		}
 		
-		//fail("Not yet implemented");
-		
 	}
 
 	@Test
@@ -57,23 +55,19 @@ public class ReportManagerTest {
 		scr.setSurcharge(10);
 		MenuManager.getMenu().setSurcharge(scr);
 		
-		//getting the menu and order ready for the report
+		//getting the menu and order ready for the report testing
 		//adding sample menu item
 		MenuItemDTO tempMenuItem = new MenuItemDTO();
 		tempMenuItem.setMinimum_order(2);
 		tempMenuItem.setPrice_per_person(2.5f);
 		IdDTO testID = MenuManager.getMenu().AddItem(tempMenuItem);
-		//System.out.println(testID.getId());
 		
 		MenuItemDTO tempMenuItem2 = new MenuItemDTO();
 		tempMenuItem2.setMinimum_order(4);
 		tempMenuItem2.setPrice_per_person(3.5f);
 		IdDTO testID2 = MenuManager.getMenu().AddItem(tempMenuItem2);
-		//System.out.println(testID2.getId());
-		
-		//System.out.println(MenuManager.menu.getAllMenuItems().get(1).getMinimum_order());
-		
-		
+
+		//adding order 
 		OrderDTO ordToADD = new OrderDTO();
 		ordToADD.setDelivery_address("sample address");
 		ordToADD.setDelivery_date("20160420");
@@ -87,13 +81,8 @@ public class ReportManagerTest {
 		item.setCount(2);
 		tempOrderList.add(item);
 		ordToADD.setOrder_detail(tempOrderList);
-		//ordToADD.setStatus("open");
 		OrderManager.getOrderMan().addOrder(ordToADD);
-		//System.out.println(OrderManager.order.getOrder(0).getAmount());
-		//System.out.println(OrderManager.order.getOrder(0).getSurcharge());
-		//System.out.println("hi!");
-		//System.out.println(OrderManager.order.getOrder(0).getOrder_detail().get(0).getId());
-		
+
 		OrderDTO ordToADD2 = new OrderDTO();
 		ordToADD2.setDelivery_address("sample address2");
 		ordToADD2.setDelivery_date("20160424");
@@ -107,12 +96,7 @@ public class ReportManagerTest {
 		item.setCount(8);
 		tempOrderList.add(item);
 		ordToADD2.setOrder_detail(tempOrderList);
-		//ordToADD2.setStatus("open");
 		OrderManager.getOrderMan().addOrder(ordToADD2);
-		//System.out.println(OrderManager.order.getOrder(1).getAmount());
-		//System.out.println(OrderManager.order.getOrder(1).getSurcharge());
-		
-
 		
 		RevenueReportDTO revRep = new RevenueReportDTO();
 		String startDate = "20160420";
@@ -126,9 +110,6 @@ public class ReportManagerTest {
 			compare = true;
 		assertEquals(compare, true);
 		
-		//System.out.println(revRep.getFood_revenue());
-		//System.out.println(revRep.getSurcharge_revenue());
-		
 		
 		ReportOrderDTO repDTO1 = ReportManager.getReportMan().getOrderReport(800, "20160420");
 		ReportOrderDTO repDTO2 = ReportManager.getReportMan().getOrderReport(801, "20160420");
@@ -136,16 +117,12 @@ public class ReportManagerTest {
 		assertEquals(repDTO2.getOrders().size(),0);
 		
 		
-		ReportAllOrdersDTO repDTO3;// = new ReportAllOrdersDTO();
+		ReportAllOrdersDTO repDTO3;
 		startDate = "20160419";
 		endDate = "20160425";
 		repDTO3 = ReportManager.getReportMan().getOrdersReport(startDate, endDate);
 		compare = false;
-		//System.out.println("  ");
-		//System.out.println(repDTO3.getItem_orders().get(0).getCount());
-		//System.out.println(repDTO3.getItem_orders().get(1).getCount());
-		//System.out.println("sfsfsdfsdf");
-		//System.out.println(repDTO3.getItem_orders().size());
+
 		if(repDTO3.getItem_orders().get(0).getCount() == 2)
 			compare = true;
 		assertEquals(compare, true);

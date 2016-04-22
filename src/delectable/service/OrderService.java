@@ -45,6 +45,21 @@ import delectable.patchhelper.PATCH;
 @Path("/order")
 public class OrderService {
    
+	public JsonNode ExtractJSONNODE(String jsonInString)
+	{
+		JsonNode jNode = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+		   jNode = mapper.readTree(jsonInString.toString());
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	   return jNode;
+	}
+	
+	
    @GET
    @Produces(MediaType.APPLICATION_JSON)
    public Response getOrdersByDate(@QueryParam("date") String x) throws JsonProcessingException, IllegalAccessException, InvocationTargetException
@@ -74,28 +89,7 @@ public class OrderService {
 	   return Response.status(200).entity(jsonOutString).build();
 	   	
    }
-   
-   /*
-    * PUT
-    * {
-  	"delivery_date": "20160301",
-  	"delivery_address": "10 West 31st ST, Chicago IL 60616",
-  	"personal_info": {
-  		"name": "Virgil B",
-  		"email": "virgil@example.com",
-  		"phone": "312-456-7890"
-  	},
-  	"note": "Room SB-214",
-  	"order_detail": [{
-  		"id": 123,
-  		"count": 8
-  	}, {
-  		"id": 124,
-  		"count": 24
-  	}]
-  }
 
-    */
 
    @PUT
    @Consumes(MediaType.APPLICATION_JSON)
@@ -116,13 +110,10 @@ public class OrderService {
 
 	   try{
 		   order = mapper.readValue(jsonInString.toString(), OrderDTO.class);
-		   //System.out.println("The values in order id is " + order.getOrder_detail().get(0).getId());
 	   } catch( Exception e)
 	   {
 		   return Response.status(400).entity("").build();
 	   }
-	   //System.out.println("The values in order, del date, del add " + order.getDelivery_date() 
-	   //+ order.getDelivery_address());
 
 	   OrderAddedDTO oa;
 	   try {
@@ -145,10 +136,6 @@ public class OrderService {
 		   jsonOutString = mapper.writeValueAsString(err);
 		   return Response.status(400).entity(jsonOutString).build();
 	   }
-	  
-	   //oa.setCancel_url(uriInfo.getBaseUri().toString());
-	   
-
 	   
 	   UriBuilder builder = uriInfo.getAbsolutePathBuilder();
        builder.path("cancel/" + Integer.toString(oa.getId()));
@@ -175,7 +162,7 @@ public class OrderService {
 	   IdDTO order = new IdDTO();
 	   ObjectMapper mapper = new ObjectMapper();
 	   StringBuilder jsonInString = new StringBuilder();
-		try {
+	   try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
 			String line = null;
 			while ((line = in.readLine()) != null) {
@@ -187,26 +174,19 @@ public class OrderService {
 		 if(jsonInString.length() == 0)
 			   return Response.noContent().entity("").build();
 		   
-		   //reading json as a tree and then traversing
-		   JsonNode node = null ;
-		   try {
-			node = mapper.readTree(jsonInString.toString());
-		   } catch (JsonProcessingException e) {
-			e.printStackTrace();
-		   } catch (IOException e) {
-			e.printStackTrace();
-		   }
-	   if(node.get("id") == null || node.size() > 1 
+		 //reading json as a tree and then traversing
+		 JsonNode node = ExtractJSONNODE(jsonInString.toString());
+		 
+		 if(node.get("id") == null || node.size() > 1 
 			   || node.get("id").asInt()!= id){
-		   return Response.status(400).entity("").build();    
-	   }
-	   try{
-		   order = mapper.readValue(jsonInString.toString(), IdDTO.class);
-		   //System.out.println("The values in order id is " + order.getOrder_detail().get(0).getId());
-	   } catch( Exception e)
-	   {
-		   return Response.status(400).entity("").build();
-	   }
+			 return Response.status(400).entity("").build();    
+		 	}
+		 try{
+			 order = mapper.readValue(jsonInString.toString(), IdDTO.class);
+		 	} catch( Exception e)
+		 	{
+		 		return Response.status(400).entity("").build();
+		   }
 
 	   try {
 		   OrderManager.getOrderMan().CancelOrder(order);
@@ -224,7 +204,6 @@ public class OrderService {
 		   jsonOutString = mapper.writeValueAsString(err);
 		   return Response.status(400).entity(jsonOutString).build();
 	   }
-	   //oa.setCancel_url(uriInfo.getBaseUri().toString());
 	   
 	   return Response.status(201).entity("").build();
 

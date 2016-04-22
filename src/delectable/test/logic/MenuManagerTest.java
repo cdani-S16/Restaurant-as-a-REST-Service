@@ -33,13 +33,14 @@ public class MenuManagerTest {
 	
 	@Test
 	public void testAddItem() throws IllegalAccessException, InvocationTargetException {
-		
+		//add item and test the ids
 		a = MenuManager.getMenu().AddItem(mDTO);
 		b = MenuManager.getMenu().AddItem(mDTO);
 		c = MenuManager.getMenu().AddItem(mDTO);
 		assertEquals(MenuManager.getMenu().getAllMenuItems().size(),3);
 		assertEquals(MenuManager.getMenu().getMenuItem(a.getId()).getId(), a.getId());
 		assertEquals(MenuManager.getMenu().getMenuItem(b.getId()).getId(), b.getId());
+		assertEquals(MenuManager.getMenu().getAllMenuItems().size(),3);
 	}
 
 
@@ -66,7 +67,6 @@ public class MenuManagerTest {
 
 	@Test
 	public void testSurcharge() {
-		//System.out.println(MenuManager.getSurcharge().getSurcharge());
 		boolean compare = false;
 		if(MenuManager.getSurcharge().getSurcharge() == 0)
 			compare = true;

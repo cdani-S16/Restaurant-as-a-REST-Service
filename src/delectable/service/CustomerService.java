@@ -45,8 +45,6 @@ public class CustomerService {
 		   ObjectMapper mapper = new ObjectMapper();
 		   jsonOut = mapper.writeValueAsString(cDto);
 		   return Response.status(200).entity(jsonOut).build();
-		   //return Response.status(200).entity("The getCustomersByKey"
-		   //		+ " was called - GET customer by key " + x).build();
 	   }
 	   else{
 		   //email id, name , phone number
@@ -57,9 +55,6 @@ public class CustomerService {
 		   ObjectMapper mapper = new ObjectMapper();
 		   jsonOut = mapper.writeValueAsString(cDto);
 		   return Response.status(200).entity(jsonOut).build();
-		
-		   //return Response.status(200).entity("The getCustomersByKey"
-		   //		+ " was called - GET no param passed").build();
 	   }
    }
    
@@ -74,8 +69,6 @@ public class CustomerService {
 	   String jsonOutString = mapper.writeValueAsString(mn);
 
 	   return Response.status(200).entity(jsonOutString).build();
-	   //return Response.status(200).entity("The getCustomerById" +
-		//   		" was called - GET sample customer id " + id + " , the called id " + id).build();
    }
    	
 }

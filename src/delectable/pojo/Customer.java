@@ -14,14 +14,7 @@ public class Customer {
 	private String name;
 	private String email;
 	private String phone;
-	/*private List<CustomerOrder> orders = new ArrayList<CustomerOrder>();
-	
-	public List<CustomerOrder> getOrders() {
-		return orders;
-	}
-	public void setOrders(List<CustomerOrder> orders) {
-		this.orders = orders;
-	}*/
+
 	public int getId() {
 		return id;
 	}

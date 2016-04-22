@@ -40,7 +40,6 @@ public class MenuManager {
 	
 	public MenuManager()
 	{
-		//menuItems = new ArrayList<MenuItem>();
 	}
 	
 	public IdDTO AddItem(MenuItemDTO item) throws IllegalAccessException, InvocationTargetException
@@ -50,37 +49,32 @@ public class MenuManager {
 		BeanUtils.copyProperties(mi, item);
 		DateFormat df = new SimpleDateFormat("yyyyMMdd");
 		Date dateobj = new Date();
-		//System.out.println(df.format(dateobj));
 		mi.setCreate_date(df.format(dateobj));
 		mi.setLast_modified_date(df.format(dateobj));
 		getMenuItems().add(mi);
-
 		idObj.setId(mi.getId());
 		return idObj;
 		
 	}
 	
-    public List<MenuItemIdDTO> getAllMenuItems() throws IllegalAccessException, InvocationTargetException {
+    public List<MenuItemIdDTO> getAllMenuItems() 
+    		throws IllegalAccessException, InvocationTargetException {
     	
-    	//Mapper mapper = new DozerBeanMapper();
     	List<MenuItemIdDTO> menuItemsDTO = new ArrayList<MenuItemIdDTO>();
     	
-    	
     	for (int i = 0; i < getMenuItems().size(); i++) {
-
     		MenuItemIdDTO temp = new MenuItemIdDTO();
         	BeanUtils.copyProperties(temp, getMenuItems().get(i));
         	menuItemsDTO.add(temp);
 		}
-
         return(menuItemsDTO);
     }
     
-    public MenuItemDetailDTO getMenuItem(int id) throws IllegalAccessException, InvocationTargetException
+    public MenuItemDetailDTO getMenuItem(int id) 
+    		throws IllegalAccessException, InvocationTargetException
     {
     	MenuItemDetailDTO miDto = new MenuItemDetailDTO();
     	BeanUtils.copyProperties(miDto,getMenuItems().get(id));
-    	//BeanUtils.copyProperties(miDto.categories, menuItems.get(id).getCategories());
     	return miDto;
     	
     }
@@ -104,7 +98,7 @@ public class MenuManager {
 	}
 
 	public void setSurcharge(AdminSchrDTO scr) {
-		this.surcharge = scr.getSurcharge();
+		MenuManager.surcharge = scr.getSurcharge();
 	}
 	
 	public float getPrice(int menuId)

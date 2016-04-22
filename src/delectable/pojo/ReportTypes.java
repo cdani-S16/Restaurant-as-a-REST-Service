@@ -16,7 +16,4 @@ public class ReportTypes {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
 }

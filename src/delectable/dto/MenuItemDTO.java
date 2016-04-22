@@ -15,9 +15,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class MenuItemDTO implements Serializable{
+public class MenuItemDTO{
 	
-	
+
+		private String name;
+		private float price_per_person;
+		private int minimum_order;
+		private List<CategoriesDTO> categories;
 		public MenuItemDTO()
 		{
 			categories = new ArrayList<CategoriesDTO>();
@@ -41,30 +45,13 @@ public class MenuItemDTO implements Serializable{
 			this.minimum_order = minimum_order;
 		}
 
-		private String name;
-		private float price_per_person;
-		private int minimum_order;
-		private List<CategoriesDTO> categories;
-		
-
-	
 		//@JsonProperty("categories")
 		public void setCategories(List<CategoriesDTO> data) {
 			categories = data;
 		}
-		
 		public List<CategoriesDTO> getCategories() {
 			return categories;
 		}
-		
-		
-		
-	/*"categories": [{
-  		"name": "organic"
-  	}, {
-  		"name": "vegetarian"
-  	}]*/
-	
 
 }
 

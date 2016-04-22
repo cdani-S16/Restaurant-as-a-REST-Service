@@ -33,6 +33,7 @@ public class CustomerManagerTest {
 
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void testGetCustomer() throws IllegalAccessException, InvocationTargetException {
+		//throw an error cause there aren't any customers
 		CustomerDTO cusGetALL = new CustomerDTO();
 		cusGetALL = CustomerManager.getCusMan().getCustomer(1);
 		

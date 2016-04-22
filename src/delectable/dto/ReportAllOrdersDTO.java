@@ -3,31 +3,7 @@ package delectable.dto;
 import java.util.List;
 
 public class ReportAllOrdersDTO {
-/*
- * 
- * {
-  	"id": 804,
-  	"name": "Order report",
-  	"start_date": "20160101",
-  	"end_date": "20160331",
-  	"orders_placed": 47,
-  	"orders_cancelled": 2,
-  	"orders_open": 45,
-	"item_orders" : [
-	{
-		"id"
-		"name":
-		"count":
-	},
-	{	
-		"id"
-		"name":
-		"count"
-	},
-	]
-  }
- */
-	
+
 	private int id;
 	private String name;
 	private String start_date;

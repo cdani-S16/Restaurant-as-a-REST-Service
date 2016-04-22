@@ -27,9 +27,4 @@ public class ReportOrder {
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
-	
-
-	
-	
-	
 }

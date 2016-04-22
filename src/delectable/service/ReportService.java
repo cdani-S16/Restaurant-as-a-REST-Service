@@ -62,11 +62,10 @@ public class ReportService {
    {
 	   if(id == 800)
 	   {
-		   ReportOrderDTO repOr;// = new ReportOrderDTO();
+		   ReportOrderDTO repOr;
 		   DateFormat df = new SimpleDateFormat("yyyyMMdd");
 		   Date dateobj = new Date();
-		   //System.out.println(df.format(dateobj));
-		   //oi.setOrder_date(df.format(dateobj));
+
 		   repOr = ReportManager.getReportMan().getOrderReport(id, df.format(dateobj));
 		   
 		   String jsonOutString;
@@ -78,7 +77,7 @@ public class ReportService {
 	   
 	   else if (id == 801)
 	   {
-		   ReportOrderDTO repOr;// = new ReportOrderDTO();
+		   ReportOrderDTO repOr;
 		   DateFormat df = new SimpleDateFormat("yyyyMMdd");
 		   Date date = new Date();
 		   
@@ -87,8 +86,6 @@ public class ReportService {
 		   calendar.add(Calendar.DATE, 1);
 		   date = calendar.getTime();
 		   
-		   //System.out.println(df.format(date));
-		   //oi.setOrder_date(df.format(dateobj));
 		   repOr = ReportManager.getReportMan().getOrderReport(id,df.format(date));
 		   
 		   String jsonOutString;

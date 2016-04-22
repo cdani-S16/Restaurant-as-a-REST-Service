@@ -1,15 +1,7 @@
 package delectable.dto;
 
 public class OrderMiniDTO {
-/*
- *   	"id": 456,
-  	"order_date": "20160229",
-  	"delivery_date": "20160301",
-  	"amount": 61.92,
-  	"surcharge": 0,
-  	"status": "open",
-  	"ordered_by": "virgil@example.com"
- */
+
 	private int id;
 	private String order_date;
 	private String delivery_date;

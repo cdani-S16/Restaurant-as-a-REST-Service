@@ -22,6 +22,7 @@ public class OrderManagerTest {
 
 	@Test
 	public void testGetAllOrders() throws IllegalAccessException, InvocationTargetException {
+		//should be an empty order list
 		List<OrderMiniDTO> allOrders = new ArrayList<OrderMiniDTO>();
 		allOrders = OrderManager.getOrderMan().getAllOrders();
 		assertEquals(allOrders.size(),0);
@@ -29,14 +30,8 @@ public class OrderManagerTest {
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testGetOrder() throws IllegalAccessException, InvocationTargetException {
-		OrderDetailDTO ord;// = new OrderDetailDTO();
-		ord = OrderManager.getOrderMan().getOrder(0);
-	}
-
-	
-	@Test
-	public void testGetOrderDetail() {
-		//fail("Not yet implemented");
+		//supposed to throw an exception
+		OrderManager.getOrderMan().getOrder(0);
 	}
 
 
