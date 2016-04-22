@@ -32,6 +32,7 @@ public class OrderManager {
     	for (int i = 0; i < Orders.size(); i++) {
     		OrderMiniDTO temp = new OrderMiniDTO();
         	BeanUtils.copyProperties(temp, Orders.get(i));
+        	temp.setOrdered_by(Orders.get(i).getPersonal_info().getEmail());
         	orderEntriesDTO.add(temp);
 		}
         return(orderEntriesDTO);
@@ -67,7 +68,7 @@ public class OrderManager {
          */
     }
     
-    public OrderAddedDTO addOrder(OrderDTO o) throws IllegalAccessException, InvocationTargetException, ParseException {
+    public OrderAddedDTO addOrder(OrderDTO o) throws Exception {
     	//System.out.println("inside add order");
 		Order oi = new Order();
 		List<OrderDetailMenu> od = new ArrayList<OrderDetailMenu>();
@@ -100,13 +101,16 @@ public class OrderManager {
 		//System.out.println(df.format(dateobj));
 		oi.setOrder_date(df.format(dateobj));
 		oi.setOrderedBy(o.getPersonal_info().getEmail());
-		oi.setStatus("open");
+		oi.setDelivery_date(o.getDelivery_date());
+		//System.out.println(" incoming and just set dates " + o.getDelivery_date() 
+			//	+ oi.getDelivery_date());
+	   oi.setStatusManual("open");
 		
+
+	   //delivDate = calendar.getTime();
 	   Date delivDate = new Date();
 	   Calendar calendar = new GregorianCalendar();
 	   calendar.setTime(df.parse(oi.getDelivery_date()));
-	   //delivDate = calendar.getTime();
-		
 	   //delivDate = calendar.getTime();
 		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || 
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
@@ -139,19 +143,19 @@ public class OrderManager {
         return(new NullOrderDTO());
     }*/
     
-    public void CancelOrder(IdDTO order)
+    public void CancelOrder(IdDTO order) throws Exception
     {
     	ChangeStatus(order, "cancelled");
     }
     
-    public void DeliverOrder(IdDTO order)
+    public void DeliverOrder(IdDTO order) throws Exception
     {
     	ChangeStatus(order, "delivered");
     }
     
-    private void ChangeStatus(IdDTO orderId,String status)
+    private void ChangeStatus(IdDTO orderId,String status) throws Exception
     {
-    	Orders.get(orderId.getId()).setStatus(status);
+    	Orders.get(orderId.getId()).setStatusManual(status);
     }
     
     public float calcAmount(Order calcOrdr) {

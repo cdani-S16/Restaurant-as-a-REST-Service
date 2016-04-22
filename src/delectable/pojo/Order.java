@@ -1,6 +1,9 @@
 package delectable.pojo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Order {
@@ -97,7 +100,14 @@ public class Order {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatusManual(String status) throws Exception {
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		Date dateobj = new Date();
+		//System.out.println("Date " + df.format(dateobj)+ 
+		//		" exisint date in order" + getDelivery_date());
+		if(this.getDelivery_date().equals(df.format(dateobj)) 
+				&& status.equals("cancelled"))
+			throw new Exception("Cannot cancel, it's due today");
 		this.status = status;
 	}
 

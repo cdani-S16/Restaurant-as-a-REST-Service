@@ -49,7 +49,7 @@ public class ReportManagerTest {
 	}
 
 	@Test
-	public void testGetRevenueReport() throws IllegalAccessException, InvocationTargetException, ParseException {
+	public void testGetRevenueReport() throws Exception {
 		//set surcharge
 		AdminSchrDTO scr = new AdminSchrDTO();
 		scr.setSurcharge(10);

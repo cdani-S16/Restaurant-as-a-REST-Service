@@ -38,8 +38,8 @@ public class MenuManagerTest {
 		b = MenuManager.menu.AddItem(mDTO);
 		c = MenuManager.menu.AddItem(mDTO);
 		assertEquals(MenuManager.menu.getAllMenuItems().size(),3);
-		assertEquals(MenuManager.menu.getMenuItem(a.getId()).getId(), a);
-		assertEquals(MenuManager.menu.getMenuItem(b.getId()).getId(), b);
+		assertEquals(MenuManager.menu.getMenuItem(a.getId()).getId(), a.getId());
+		assertEquals(MenuManager.menu.getMenuItem(b.getId()).getId(), b.getId());
 	}
 
 

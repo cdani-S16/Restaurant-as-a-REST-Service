@@ -69,31 +69,6 @@ public class MenuManager {
     	
     }
 
-	/*public boolean AlterItem(MenuItemDTO item)
-	{
-		boolean alterFlag = false;
-		int oldIndex = FindItemById(item.getId());
-		if(oldIndex != -1)
-			alterFlag = true;
-		menuItems.remove(oldIndex);
-		menuItems.add(item);
-		return alterFlag;
-	}
-	
-	public int FindItemById(int findId)
-	{
-		int itemIndex = -1;
-		for(int i = 0; i< menuItems.size() ; i++)
-		{
-			if(menuItems.get(i).getId() == findId)
-				{
-					itemIndex = i;
-					break;
-				}
-		}
-		return itemIndex;
-	}*/
-
 	public void ChangePrice(MenuItemIdPriceDTO mi) {
 		if(mi.getId() > menuItems.size())
 			throw new ArrayIndexOutOfBoundsException();

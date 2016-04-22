@@ -3,8 +3,11 @@ package delectable.test.logic;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -21,7 +24,7 @@ import delectable.logic.OrderManager;
 public class OrderManagerTest2 {
 
 	@Test
-	public void testAddOrder() throws IllegalAccessException, InvocationTargetException, ParseException {
+	public void testAddOrder() throws Exception {
 		//adding sample menu item
 		MenuItemDTO tempMenuItem = new MenuItemDTO();
 		tempMenuItem.setMinimum_order(2);
@@ -56,7 +59,35 @@ public class OrderManagerTest2 {
 		oid.setId(ord.getId());
 		OrderManager.order.CancelOrder(oid);
 		assertEquals(OrderManager.order.getOrder(0).getStatus(),"cancelled");
+		try{
+			DateFormat df = new SimpleDateFormat("yyyyMMdd");
+			Date dateobj = new Date();
+			//System.out.println(df.format(dateobj));
+			ordToADD.setDelivery_date(df.format(dateobj));
+			OrderManager.order.addOrder(ordToADD);
+			IdDTO idD = new IdDTO();
+			idD.setId(1);
+			OrderManager.order.CancelOrder(idD);
+			
+		}catch(Exception e){
+			assertEquals(e.getLocalizedMessage()
+					.equals("Cannot cancel, it's due today"),true);
+		}
 		
+		try{
+			tempOrderList = new ArrayList<OrderDetailMenuDTO>();
+			item = new OrderDetailMenuDTO();
+			item.setId(0);
+			item.setCount(1);
+			tempOrderList.add(item);
+			ordToADD.setOrder_detail(tempOrderList);
+			OrderManager.order.addOrder(ordToADD);
+			
+		}catch(NumberFormatException n){
+			assertEquals(n.getLocalizedMessage()
+					.equals("Min order is not satisfied"),true);
+			
+		}
 	}
 
 

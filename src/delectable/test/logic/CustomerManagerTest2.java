@@ -39,7 +39,7 @@ public class CustomerManagerTest2 {
 	}
 	
 	@Test
-	public void testGetAllCustomersAfterAdd() throws IllegalAccessException, InvocationTargetException, ParseException {
+	public void testGetAllCustomersAfterAdd() throws Exception {
 		List<CustomerDTO> cusGetALL = new ArrayList<CustomerDTO>();
 		cusGetALL = CustomerManager.cusMan.getAllCustomers();
 		assertEquals(cusGetALL.size(),1);

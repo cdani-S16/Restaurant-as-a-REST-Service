@@ -197,7 +197,7 @@ public class AdminService {
    @POST
    @Path("delivery/{oid}")
    @Consumes(MediaType.APPLICATION_JSON)
-   public Response changeDelstatus(@PathParam("oid") int id, InputStream incomingData,  @Context UriInfo uriInfo) throws JsonProcessingException {
+   public Response changeDelstatus(@PathParam("oid") int id, InputStream incomingData,  @Context UriInfo uriInfo) throws Exception {
 		  
 	   ObjectMapper mapper = new ObjectMapper();
 	   IdDTO orderId = new IdDTO();

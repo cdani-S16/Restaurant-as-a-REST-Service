@@ -99,7 +99,7 @@ public class OrderService {
 
    @PUT
    @Consumes(MediaType.APPLICATION_JSON)
-   public Response addOrder(InputStream incomingData, @Context UriInfo uriInfo) throws JsonParseException, JsonMappingException, IOException, IllegalAccessException, InvocationTargetException, ParseException {
+   public Response addOrder(InputStream incomingData, @Context UriInfo uriInfo) throws Exception {
 	   ObjectMapper mapper = new ObjectMapper();
 	   OrderDTO order = new OrderDTO();
 	   
@@ -197,7 +197,7 @@ public class OrderService {
 			e.printStackTrace();
 		   }
 	   if(node.get("id") == null || node.size() > 1 
-			   || node.get("id").asInt()!= order.getId()){
+			   || node.get("id").asInt()!= id){
 		   return Response.status(400).entity("").build();    
 	   }
 	   try{
@@ -214,6 +214,15 @@ public class OrderService {
 	   {
 		   return Response.status(400).entity(" Enter a valid order id "
 		   		+ "for cancellation").build();
+	   }
+	   catch (Exception e)
+	   {
+		   String jsonOutString;
+		   ErrorDTO err = new ErrorDTO();
+		   err.setError(e.getLocalizedMessage());
+		   mapper = new ObjectMapper();
+		   jsonOutString = mapper.writeValueAsString(err);
+		   return Response.status(400).entity(jsonOutString).build();
 	   }
 	   //oa.setCancel_url(uriInfo.getBaseUri().toString());
 	   
