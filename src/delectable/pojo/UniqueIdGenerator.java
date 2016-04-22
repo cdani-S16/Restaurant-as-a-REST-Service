@@ -3,9 +3,9 @@ package delectable.pojo;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UniqueIdGenerator {
-    static AtomicInteger atomicOrderInteger = new AtomicInteger();
-    static AtomicInteger atomicMenuInteger = new AtomicInteger();
-    static AtomicInteger atomicCustomerInteger = new AtomicInteger();
+    static AtomicInteger atomicOrderInteger = new AtomicInteger(-1);
+    static AtomicInteger atomicMenuInteger = new AtomicInteger(-1);
+    static AtomicInteger atomicCustomerInteger = new AtomicInteger(-1);
     
     public static int getUniqueOrderID() {
         return atomicOrderInteger.incrementAndGet();

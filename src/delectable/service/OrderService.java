@@ -1,22 +1,45 @@
 package delectable.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import delectable.dto.ErrorDTO;
+import delectable.dto.IdDTO;
+import delectable.dto.MenuItemDTO;
+import delectable.dto.OrderAddedDTO;
+import delectable.dto.OrderDTO;
+import delectable.dto.OrderDetailDTO;
+import delectable.dto.OrderMiniDTO;
+import delectable.logic.CustomerManager;
+import delectable.logic.MenuManager;
+import delectable.logic.OrderManager;
 import delectable.patchhelper.PATCH;
 
 @Path("/order")
@@ -24,34 +47,115 @@ public class OrderService {
    
    @GET
    @Produces(MediaType.APPLICATION_JSON)
-   public Response getOrdersByDate(@QueryParam("date") String x)
+   public Response getOrdersByDate(@QueryParam("date") String x) throws JsonProcessingException, IllegalAccessException, InvocationTargetException
    {
 	   boolean noparam = false;
 	   if(x == null){
 		   noparam = true;
 	   }
-	   if(!noparam)
-		   return Response.status(200).entity("The getoordersbydate"
-		   		+ " was called - GET orders by date " + x).build();
-	   else
-		   return Response.status(200).entity("The getoordersbydate"
-		   		+ " was called - GET no param passed").build();
+	   ObjectMapper mapper = new ObjectMapper();
+	   String jsonInString = new String();
+	   List<OrderMiniDTO> mi = OrderManager.order.getAllOrders();
+	   jsonInString = mapper.writeValueAsString(mi);
+	   return Response.status(200).entity(jsonInString).build();
    }
    
    @GET
    @Path("/{oid}")
    @Produces(MediaType.APPLICATION_JSON)
-   public Response getOrdersById(@PathParam("oid") int id)
+   public Response getOrdersById(@PathParam("oid") int id) throws IllegalAccessException, InvocationTargetException, JsonProcessingException
    {
-	   return Response.status(200).entity("The getorderbyid" +
-		   		" was called - GET sample order id " + id + " , the called id " + id).build();
+	   OrderDetailDTO dispOrder = new OrderDetailDTO();
+	   	
+	   ObjectMapper mapper = new ObjectMapper();
+	   String jsonOutString = new String();
+	   dispOrder = OrderManager.order.getOrder(id);
+	   jsonOutString = mapper.writeValueAsString(dispOrder);
+	   return Response.status(200).entity(jsonOutString).build();
+	   	
    }
    
-   @POST
+   /*
+    * PUT
+    * {
+  	"delivery_date": "20160301",
+  	"delivery_address": "10 West 31st ST, Chicago IL 60616",
+  	"personal_info": {
+  		"name": "Virgil B",
+  		"email": "virgil@example.com",
+  		"phone": "312-456-7890"
+  	},
+  	"note": "Room SB-214",
+  	"order_detail": [{
+  		"id": 123,
+  		"count": 8
+  	}, {
+  		"id": 124,
+  		"count": 24
+  	}]
+  }
+
+    */
+
+   @PUT
    @Consumes(MediaType.APPLICATION_JSON)
-   public Response addOrder(InputStream incomingData) throws JsonParseException, JsonMappingException, IOException {
-	   return Response.status(201).entity("The addorder" +
-	   		" was called - POST, a sample id 24 ").build();
+   public Response addOrder(InputStream incomingData, @Context UriInfo uriInfo) throws JsonParseException, JsonMappingException, IOException, IllegalAccessException, InvocationTargetException, ParseException {
+	   ObjectMapper mapper = new ObjectMapper();
+	   OrderDTO order = new OrderDTO();
+	   
+	   StringBuilder jsonInString = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				jsonInString.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+
+	   try{
+		   order = mapper.readValue(jsonInString.toString(), OrderDTO.class);
+		   //System.out.println("The values in order id is " + order.getOrder_detail().get(0).getId());
+	   } catch( Exception e)
+	   {
+		   return Response.status(400).entity("").build();
+	   }
+	   //System.out.println("The values in order, del date, del add " + order.getDelivery_date() 
+	   //+ order.getDelivery_address());
+
+	   OrderAddedDTO oa;
+	   try {
+		   oa = OrderManager.order.addOrder(order);
+	   }  catch (IndexOutOfBoundsException i)
+	   {
+		   ErrorDTO e = new ErrorDTO();
+		   e.setError("The menu id does not exist");
+		   mapper = new ObjectMapper();
+		   String jsonOutString = new String();
+		   jsonOutString = mapper.writeValueAsString(e);
+		   return Response.status(400).entity(jsonOutString).build();
+	   }
+	   catch( NumberFormatException e)
+	   {
+		   ErrorDTO err = new ErrorDTO();
+		   err.setError(e.getMessage().toString());
+		   mapper = new ObjectMapper();
+		   String jsonOutString = new String();
+		   jsonOutString = mapper.writeValueAsString(err);
+		   return Response.status(400).entity(jsonOutString).build();
+	   }
+	  
+	   //oa.setCancel_url(uriInfo.getBaseUri().toString());
+	   
+
+	   
+	   UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+       builder.path("cancel/" + Integer.toString(oa.getId()));
+       oa.setCancel_url(builder.build().toString());
+	   String jsonOutString = new String();
+	   jsonOutString = mapper.writeValueAsString(oa);
+	   return Response.status(201).entity(jsonOutString).build();
    }
    
    @PATCH
@@ -62,7 +166,58 @@ public class OrderService {
 	   		" was called - PATCH,  " + id).build();
    }
    
-   /*public List<User> getUsers(){
-      return userDao.getAllUsers();
-   }*/	
+   
+   @POST
+   @Path("cancel/{oid}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   public Response cancelOrder(InputStream incomingData,@PathParam("oid") int id) throws JsonParseException, JsonMappingException, IOException {
+	   
+	   IdDTO order = new IdDTO();
+	   ObjectMapper mapper = new ObjectMapper();
+	   StringBuilder jsonInString = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(incomingData));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				jsonInString.append(line);
+			}
+		} catch (Exception e) {
+			System.out.println("Error Parsing: - ");
+		}
+		 if(jsonInString.length() == 0)
+			   return Response.noContent().entity("").build();
+		   
+		   //reading json as a tree and then traversing
+		   JsonNode node = null ;
+		   try {
+			node = mapper.readTree(jsonInString.toString());
+		   } catch (JsonProcessingException e) {
+			e.printStackTrace();
+		   } catch (IOException e) {
+			e.printStackTrace();
+		   }
+	   if(node.get("id") == null || node.size() > 1 
+			   || node.get("id").asInt()!= order.getId()){
+		   return Response.status(400).entity("").build();    
+	   }
+	   try{
+		   order = mapper.readValue(jsonInString.toString(), IdDTO.class);
+		   //System.out.println("The values in order id is " + order.getOrder_detail().get(0).getId());
+	   } catch( Exception e)
+	   {
+		   return Response.status(400).entity("").build();
+	   }
+
+	   try {
+		   OrderManager.order.CancelOrder(order);
+	   } catch (IndexOutOfBoundsException i)
+	   {
+		   return Response.status(400).entity(" Enter a valid order id "
+		   		+ "for cancellation").build();
+	   }
+	   //oa.setCancel_url(uriInfo.getBaseUri().toString());
+	   
+	   return Response.status(201).entity("").build();
+
+   }
 }

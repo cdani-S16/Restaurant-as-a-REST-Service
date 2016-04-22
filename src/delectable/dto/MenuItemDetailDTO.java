@@ -15,21 +15,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MenuItemDetailDTO {
 	
 
-		public int abc;
 		public int id;
 		public String name;
-		public int price_per_person;
+		public float price_per_person;
 		public int minimum_order;
-		public String[] categories;
+		private List<CategoriesDTO> categories;
+
 		public String create_date;
 		public String last_modified_date;
 		
-		public int getAbc() {
-			return abc;
-		}
-		public void setAbc(int abc) {
-			this.abc = abc;
-		}
 		public int getId() {
 			return id;
 		}
@@ -42,10 +36,10 @@ public class MenuItemDetailDTO {
 		public void setName(String name) {
 			this.name = name;
 		}
-		public int getPrice_per_person() {
+		public float getPrice_per_person() {
 			return price_per_person;
 		}
-		public void setPrice_per_person(int price_per_person) {
+		public void setPrice_per_person(float price_per_person) {
 			this.price_per_person = price_per_person;
 		}
 		public int getMinimum_order() {
@@ -54,11 +48,13 @@ public class MenuItemDetailDTO {
 		public void setMinimum_order(int minimum_order) {
 			this.minimum_order = minimum_order;
 		}
-		public String[] getCategories() {
-			return categories;
+		//@JsonProperty("categories")
+		public void setCategories(List<CategoriesDTO> data) {
+			categories = data;
 		}
-		public void setCategories(String[] categories) {
-			this.categories = categories;
+		
+		public List<CategoriesDTO> getCategories() {
+			return categories;
 		}
 		public String getCreate_date() {
 			return create_date;

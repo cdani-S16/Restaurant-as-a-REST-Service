@@ -1,6 +1,10 @@
 package delectable.pojo;
 
-public class MenuItem {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MenuItem  implements Serializable{
 /*"id": 123,
   	"name": "Lasagna",
   	"price_per_person": 2.49,
@@ -13,14 +17,33 @@ public class MenuItem {
 	
 	private int id;
 	private String name;
-	private int price_per_person;
+	private float price_per_person;
 	private int minimum_order;
-	private String[] categories;
+	private List<Categories> categories;
+	private String create_date;
+	private String last_modified_date;
 
-	
+
+	public String getCreate_date() {
+		return create_date;
+	}
+
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
+	}
+
+	public String getLast_modified_date() {
+		return last_modified_date;
+	}
+
+	public void setLast_modified_date(String last_modified_date) {
+		this.last_modified_date = last_modified_date;
+	}
+
 	public MenuItem()
 	{
 		this.id = UniqueIdGenerator.getUniqueMenuID();
+		categories = new ArrayList<Categories>();
 	}
 	
 	public int getId() {
@@ -39,11 +62,11 @@ public class MenuItem {
 		this.name = name;
 	}
 
-	public int getPrice_per_person() {
+	public float getPrice_per_person() {
 		return price_per_person;
 	}
 
-	public void setPrice_per_person(int price_per_person) {
+	public void setPrice_per_person(float price_per_person) {
 		this.price_per_person = price_per_person;
 	}
 
@@ -55,13 +78,12 @@ public class MenuItem {
 		this.minimum_order = minimum_order;
 	}
 
-	public String[] getCategories() {
+	public List<Categories> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(String[] categories) {
+	public void setCategories(List<Categories> categories) {
 		this.categories = categories;
 	}
-
 	
 }
