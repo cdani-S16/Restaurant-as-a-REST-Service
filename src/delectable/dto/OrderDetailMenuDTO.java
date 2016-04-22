@@ -22,5 +22,11 @@ public class OrderDetailMenuDTO {
 		{
 			
 		}
-	
+		public int getItemCount(int i)
+		{
+			if( i == id)
+				return count;
+			else
+				return 0;
+		}
 }

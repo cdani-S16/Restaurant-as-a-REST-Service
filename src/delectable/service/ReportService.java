@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import delectable.dto.OrderDetailDTO;
+import delectable.dto.ReportAllOrdersDTO;
 import delectable.dto.PersonalInfoDTO;
 import delectable.dto.ReportOrderDTO;
 import delectable.dto.RevenueReportDTO;
@@ -106,8 +107,18 @@ public class ReportService {
 		   return Response.status(200).entity(jsonOutString).build();
 	   }
 	   
+	   else if(id == 803)
+	   {
+		   ReportAllOrdersDTO ordRev = ReportManager.reportMan.getOrdersReport(startDate, endDate);
+		   String jsonOutString;
+		   ObjectMapper mapper = new ObjectMapper();
+		   jsonOutString = mapper.writeValueAsString(ordRev);
+		   return Response.status(200).entity(jsonOutString).build();
+	   }
 	   else
 		   return Response.status(400).entity("").build();
    }
    	
+   
+   
 }

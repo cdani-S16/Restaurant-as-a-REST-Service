@@ -209,4 +209,12 @@
 		    <html destdir="junit/CoverageReports" />
 		</jacoco:report>
 	</target>
+
+	<target name="war">
+		<war destfile="../delectable.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent"/>
+			<lib dir="WebContent/WEB-INF/lib"/>
+			<classes dir="build/classes"/>
+		</war>
+	</target>
 </project>

@@ -10,10 +10,12 @@ import java.util.List;
 import org.junit.Test;
 
 import delectable.dto.AdminSchrDTO;
+import delectable.dto.IdDTO;
 import delectable.dto.MenuItemDTO;
 import delectable.dto.OrderDTO;
 import delectable.dto.OrderDetailMenuDTO;
 import delectable.dto.PersonalInfoDTO;
+import delectable.dto.ReportAllOrdersDTO;
 import delectable.dto.ReportOrderDTO;
 import delectable.dto.RevenueReportDTO;
 import delectable.logic.MenuManager;
@@ -60,12 +62,16 @@ public class ReportManagerTest {
 		MenuItemDTO tempMenuItem = new MenuItemDTO();
 		tempMenuItem.setMinimum_order(2);
 		tempMenuItem.setPrice_per_person(2.5f);
-		MenuManager.menu.AddItem(tempMenuItem);
-
-		tempMenuItem = new MenuItemDTO();
-		tempMenuItem.setMinimum_order(4);
-		tempMenuItem.setPrice_per_person(3.5f);
-		MenuManager.menu.AddItem(tempMenuItem);
+		IdDTO testID = MenuManager.menu.AddItem(tempMenuItem);
+		//System.out.println(testID.getId());
+		
+		MenuItemDTO tempMenuItem2 = new MenuItemDTO();
+		tempMenuItem2.setMinimum_order(4);
+		tempMenuItem2.setPrice_per_person(3.5f);
+		IdDTO testID2 = MenuManager.menu.AddItem(tempMenuItem2);
+		//System.out.println(testID2.getId());
+		
+		//System.out.println(MenuManager.menu.getAllMenuItems().get(1).getMinimum_order());
 		
 		
 		OrderDTO ordToADD = new OrderDTO();
@@ -81,25 +87,28 @@ public class ReportManagerTest {
 		item.setCount(2);
 		tempOrderList.add(item);
 		ordToADD.setOrder_detail(tempOrderList);
+		//ordToADD.setStatus("open");
 		OrderManager.order.addOrder(ordToADD);
 		//System.out.println(OrderManager.order.getOrder(0).getAmount());
 		//System.out.println(OrderManager.order.getOrder(0).getSurcharge());
+		//System.out.println("hi!");
+		//System.out.println(OrderManager.order.getOrder(0).getOrder_detail().get(0).getId());
 		
-		
-		ordToADD = new OrderDTO();
-		ordToADD.setDelivery_address("sample address2");
-		ordToADD.setDelivery_date("20160424");
+		OrderDTO ordToADD2 = new OrderDTO();
+		ordToADD2.setDelivery_address("sample address2");
+		ordToADD2.setDelivery_date("20160424");
 		//sample personal info
 		pi = new PersonalInfoDTO(); 
 		pi.setEmail("random@testemail2.com");
-		ordToADD.setPersonal_info(pi);
+		ordToADD2.setPersonal_info(pi);
 		tempOrderList = new ArrayList<OrderDetailMenuDTO>();
 		item = new OrderDetailMenuDTO();
 		item.setId(1);
 		item.setCount(8);
 		tempOrderList.add(item);
-		ordToADD.setOrder_detail(tempOrderList);
-		OrderManager.order.addOrder(ordToADD);
+		ordToADD2.setOrder_detail(tempOrderList);
+		//ordToADD2.setStatus("open");
+		OrderManager.order.addOrder(ordToADD2);
 		//System.out.println(OrderManager.order.getOrder(1).getAmount());
 		//System.out.println(OrderManager.order.getOrder(1).getSurcharge());
 		
@@ -126,6 +135,23 @@ public class ReportManagerTest {
 		assertEquals(repDTO1.getOrders().size(),1);
 		assertEquals(repDTO2.getOrders().size(),0);
 		
+		
+		ReportAllOrdersDTO repDTO3;// = new ReportAllOrdersDTO();
+		startDate = "20160419";
+		endDate = "20160425";
+		repDTO3 = ReportManager.reportMan.getOrdersReport(startDate, endDate);
+		compare = false;
+		//System.out.println("  ");
+		//System.out.println(repDTO3.getItem_orders().get(0).getCount());
+		//System.out.println(repDTO3.getItem_orders().get(1).getCount());
+		//System.out.println("sfsfsdfsdf");
+		//System.out.println(repDTO3.getItem_orders().size());
+		if(repDTO3.getItem_orders().get(0).getCount() == 2)
+			compare = true;
+		assertEquals(compare, true);
+		if(repDTO3.getItem_orders().get(1).getCount() == 8)
+			compare = true;
+		assertEquals(compare, true);
 		
 	}
 
