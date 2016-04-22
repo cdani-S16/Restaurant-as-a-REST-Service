@@ -23,36 +23,56 @@ import delectable.pojo.*;
 
 public class ReportManager {
 
-	public static ReportManager reportMan = new ReportManager();
-	private static List<ReportTypes> reportTypes = new ArrayList<ReportTypes>();
-	private static ReportOrder reportOrder = new ReportOrder();
+	private static ReportManager reportMan = null;
+	private static List<ReportTypes> reportTypes = null;
+	//private static ReportOrder reportOrder = null;
 	
+	public static ReportManager getReportMan()
+	{
+		if(reportMan == null)
+			reportMan = new ReportManager();
+		return reportMan;
+	}
+	
+	public static List<ReportTypes> getReportTypesDS()
+	{
+		if(reportTypes == null)
+			reportTypes = new ArrayList<ReportTypes>();
+		return reportTypes;
+	}
+	
+	/*public static ReportOrder getReportOrder()
+	{
+		if(reportOrder == null)
+			reportOrder = new ReportOrder();
+		return reportOrder;
+	}*/
 	
 	public List<ReportTypes> getReportTypes() throws IllegalAccessException, InvocationTargetException
 	{
 		ReportTypes r = new ReportTypes();
 		r.setId(800);
 		r.setName("Orders to deliver today");
-		reportTypes.add(r);
+		getReportTypesDS().add(r);
 		r = new ReportTypes();
 		r.setId(801);
 		r.setName("Orders to deliver tomorrow");
-		reportTypes.add(r);
+		getReportTypesDS().add(r);
 		r = new ReportTypes();
 		r.setId(802);
 		r.setName("Revenue report");
-		reportTypes.add(r);
+		getReportTypesDS().add(r);
 		r = new ReportTypes();
 		r.setId(803);
 		r.setName("Orders delivery report");
-		reportTypes.add(r);
+		getReportTypesDS().add(r);
 		
 		List<ReportTypes> rTypes = new ArrayList<ReportTypes>();
 		
-		for(int i = 0; i < reportTypes.size(); i++)
+		for(int i = 0; i < getReportTypesDS().size(); i++)
 		{
 			ReportTypes temp = new ReportTypes();
-			BeanUtils.copyProperties(temp, reportTypes.get(i));
+			BeanUtils.copyProperties(temp, getReportTypesDS().get(i));
 			rTypes.add(temp);
 		}
 		
@@ -82,15 +102,15 @@ public class ReportManager {
 			rODTO.setName("Order to deliver tomorrow");
 			date = nextDate;
 		}
-		for(int i = 0; i< OrderManager.Orders.size(); i++)
+		for(int i = 0; i< OrderManager.getOrders().size(); i++)
 		{
-			String delivDate = OrderManager.order.getOrder(i).getDelivery_date();
+			String delivDate = OrderManager.getOrderMan().getOrder(i).getDelivery_date();
 			calendar.setTime(df.parse(delivDate));
 			Date Deliv_Date = calendar.getTime();
 			if(Deliv_Date.equals(date))
 			{	
 				OrderDetailDTO temp = new OrderDetailDTO();
-				BeanUtils.copyProperties(temp,OrderManager.order.getOrder(i));
+				BeanUtils.copyProperties(temp,OrderManager.getOrderMan().getOrder(i));
 				rODTO.getOrders().add(temp);
 			}
 		}
@@ -152,9 +172,9 @@ public class ReportManager {
 		revRep.setOrders_open(0);
 		revRep.setSurcharge_revenue(0);
 		
-		for(int i = 0; i< OrderManager.Orders.size(); i++)
+		for(int i = 0; i< OrderManager.getOrders().size(); i++)
 		{
-			String delivDate = OrderManager.order.getOrder(i).getDelivery_date();
+			String delivDate = OrderManager.getOrderMan().getOrder(i).getDelivery_date();
 			calendar.setTime(df.parse(delivDate));
 			Date Deliv_Date = calendar.getTime();
 			
@@ -162,15 +182,15 @@ public class ReportManager {
 					&& End_date.after(Deliv_Date))
 			{	
 				revRep.setOrders_placed(revRep.getOrders_placed() + 1);
-				if(OrderManager.order.getOrder(i).getStatus().equals("cancelled"))
+				if(OrderManager.getOrderMan().getOrder(i).getStatus().equals("cancelled"))
 				{
 					revRep.setOrders_cancelled(revRep.getOrders_cancelled() + 1);
 				}
-				if(OrderManager.order.getOrder(i).getStatus().equals("open"))
+				if(OrderManager.getOrderMan().getOrder(i).getStatus().equals("open"))
 				{
 					revRep.setOrders_open(revRep.getOrders_open() + 1);
-					revRep.setFood_revenue(revRep.getFood_revenue() + OrderManager.order.getOrder(i).getAmount());
-					revRep.setSurcharge_revenue(revRep.getSurcharge_revenue() + OrderManager.order.getOrder(i).getSurcharge());				
+					revRep.setFood_revenue(revRep.getFood_revenue() + OrderManager.getOrderMan().getOrder(i).getAmount());
+					revRep.setSurcharge_revenue(revRep.getSurcharge_revenue() + OrderManager.getOrderMan().getOrder(i).getSurcharge());				
 				}				
 			}
 		}
@@ -231,9 +251,9 @@ public class ReportManager {
 			BeanUtils.copyProperties(temp, MenuManager.getMenu().getMenuItem(j));
 			//temp.setCount(0);
 			int tempCount = 0;
-			for(int i = 0; i< OrderManager.Orders.size(); i++)
+			for(int i = 0; i< OrderManager.getOrders().size(); i++)
 			{
-				String delivDate = OrderManager.order.getOrder(i).getDelivery_date();
+				String delivDate = OrderManager.getOrderMan().getOrder(i).getDelivery_date();
 				calendar.setTime(df.parse(delivDate));
 				Date Deliv_Date = calendar.getTime();
 				
@@ -241,16 +261,16 @@ public class ReportManager {
 						&& End_date.after(Deliv_Date))
 				{	
 					//revRep.setOrders_placed(revRep.getOrders_placed() + 1);
-					if(OrderManager.order.getOrder(i).getStatus()
+					if(OrderManager.getOrderMan().getOrder(i).getStatus()
 							.equals("cancelled"))
 					{
 						//revRep.setOrders_cancelled(revRep.getOrders_cancelled() + 1);
 					}
-					if(OrderManager.order.getOrder(i).getStatus().equals("open"))
+					if(OrderManager.getOrderMan().getOrder(i).getStatus().equals("open"))
 					{
-						for(int k = 0; k < OrderManager.order.getOrder(i)
+						for(int k = 0; k < OrderManager.getOrderMan().getOrder(i)
 								.getOrder_detail().size(); k++)
-							tempCount = tempCount + OrderManager.order.getOrder(i).getOrder_detail().get(k).getItemCount(j); 
+							tempCount = tempCount + OrderManager.getOrderMan().getOrder(i).getOrder_detail().get(k).getItemCount(j); 
 					}				
 				}
 			}

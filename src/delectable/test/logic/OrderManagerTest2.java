@@ -29,7 +29,7 @@ public class OrderManagerTest2 {
 		MenuItemDTO tempMenuItem = new MenuItemDTO();
 		tempMenuItem.setMinimum_order(2);
 		tempMenuItem.setPrice_per_person(2.5f);
-		MenuManager.menu.AddItem(tempMenuItem);
+		MenuManager.getMenu().AddItem(tempMenuItem);
 
 		OrderDTO ordToADD = new OrderDTO();
 		ordToADD.setDelivery_address("sample address");
@@ -46,28 +46,28 @@ public class OrderManagerTest2 {
 		tempOrderList.add(item);
 		ordToADD.setOrder_detail(tempOrderList);
 
-		OrderManager.order.addOrder(ordToADD);
+		OrderManager.getOrderMan().addOrder(ordToADD);
 
 		//retrieving and checking
 		OrderDetailDTO ord = new OrderDetailDTO();
-		ord = OrderManager.order.getOrder(0);
+		ord = OrderManager.getOrderMan().getOrder(0);
 		boolean compare = false;
 		if(ord.getAmount() == 5.0f)
 			compare = true;
 		assertEquals(compare, true);
 		IdDTO oid = new IdDTO();
 		oid.setId(ord.getId());
-		OrderManager.order.CancelOrder(oid);
-		assertEquals(OrderManager.order.getOrder(0).getStatus(),"cancelled");
+		OrderManager.getOrderMan().CancelOrder(oid);
+		assertEquals(OrderManager.getOrderMan().getOrder(0).getStatus(),"cancelled");
 		try{
 			DateFormat df = new SimpleDateFormat("yyyyMMdd");
 			Date dateobj = new Date();
 			//System.out.println(df.format(dateobj));
 			ordToADD.setDelivery_date(df.format(dateobj));
-			OrderManager.order.addOrder(ordToADD);
+			OrderManager.getOrderMan().addOrder(ordToADD);
 			IdDTO idD = new IdDTO();
 			idD.setId(1);
-			OrderManager.order.CancelOrder(idD);
+			OrderManager.getOrderMan().CancelOrder(idD);
 			
 		}catch(Exception e){
 			assertEquals(e.getLocalizedMessage()
@@ -81,7 +81,7 @@ public class OrderManagerTest2 {
 			item.setCount(1);
 			tempOrderList.add(item);
 			ordToADD.setOrder_detail(tempOrderList);
-			OrderManager.order.addOrder(ordToADD);
+			OrderManager.getOrderMan().addOrder(ordToADD);
 			
 		}catch(NumberFormatException n){
 			assertEquals(n.getLocalizedMessage()

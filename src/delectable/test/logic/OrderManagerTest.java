@@ -23,14 +23,14 @@ public class OrderManagerTest {
 	@Test
 	public void testGetAllOrders() throws IllegalAccessException, InvocationTargetException {
 		List<OrderMiniDTO> allOrders = new ArrayList<OrderMiniDTO>();
-		allOrders = OrderManager.order.getAllOrders();
+		allOrders = OrderManager.getOrderMan().getAllOrders();
 		assertEquals(allOrders.size(),0);
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testGetOrder() throws IllegalAccessException, InvocationTargetException {
 		OrderDetailDTO ord;// = new OrderDetailDTO();
-		ord = OrderManager.order.getOrder(0);
+		ord = OrderManager.getOrderMan().getOrder(0);
 	}
 
 	

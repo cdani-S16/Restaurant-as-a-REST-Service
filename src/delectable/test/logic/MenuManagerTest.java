@@ -34,32 +34,32 @@ public class MenuManagerTest {
 	@Test
 	public void testAddItem() throws IllegalAccessException, InvocationTargetException {
 		
-		a = MenuManager.menu.AddItem(mDTO);
-		b = MenuManager.menu.AddItem(mDTO);
-		c = MenuManager.menu.AddItem(mDTO);
-		assertEquals(MenuManager.menu.getAllMenuItems().size(),3);
-		assertEquals(MenuManager.menu.getMenuItem(a.getId()).getId(), a.getId());
-		assertEquals(MenuManager.menu.getMenuItem(b.getId()).getId(), b.getId());
+		a = MenuManager.getMenu().AddItem(mDTO);
+		b = MenuManager.getMenu().AddItem(mDTO);
+		c = MenuManager.getMenu().AddItem(mDTO);
+		assertEquals(MenuManager.getMenu().getAllMenuItems().size(),3);
+		assertEquals(MenuManager.getMenu().getMenuItem(a.getId()).getId(), a.getId());
+		assertEquals(MenuManager.getMenu().getMenuItem(b.getId()).getId(), b.getId());
 	}
 
 
 	@Test
 	public void testChangePrice() throws IllegalAccessException, InvocationTargetException {
-		a = MenuManager.menu.AddItem(mDTO);
-		b = MenuManager.menu.AddItem(mDTO);
-		c = MenuManager.menu.AddItem(mDTO);
+		a = MenuManager.getMenu().AddItem(mDTO);
+		b = MenuManager.getMenu().AddItem(mDTO);
+		c = MenuManager.getMenu().AddItem(mDTO);
 		
 		MenuItemIdPriceDTO testItem = new MenuItemIdPriceDTO();
 		testItem.setId(0);
 		testItem.setPrice_per_person(6);
-		MenuManager.menu.ChangePrice(testItem);
+		MenuManager.getMenu().ChangePrice(testItem);
 		boolean compare = false;
-		if(MenuManager.menu.getPrice(0) == 6)
+		if(MenuManager.getMenu().getPrice(0) == 6)
 			compare = true;
 		assertEquals(compare, true);
-		if(!(MenuManager.menu.getPrice(a.getId()) == 4))
+		if(!(MenuManager.getMenu().getPrice(a.getId()) == 4))
 			compare = true;
-		else if(!(MenuManager.menu.getPrice(c.getId()) == 4))
+		else if(!(MenuManager.getMenu().getPrice(c.getId()) == 4))
 			compare = true;
 		assertEquals(compare, true);
 	}
@@ -73,7 +73,7 @@ public class MenuManagerTest {
 		assertEquals(compare, true);
 		AdminSchrDTO scr = new AdminSchrDTO();
 		scr.setSurcharge(2);
-		MenuManager.menu.setSurcharge(scr);
+		MenuManager.getMenu().setSurcharge(scr);
 		if(MenuManager.getSurcharge().getSurcharge() == 2)
 			compare = true;
 		assertEquals(compare, true);

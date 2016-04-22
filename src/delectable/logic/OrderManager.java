@@ -23,16 +23,30 @@ import delectable.pojo.UniqueIdGenerator;
 public class OrderManager {
 
 	
-	public static List<Order> Orders = new ArrayList<Order>();
-	public static OrderManager order = new OrderManager();
+	private static List<Order> Orders = null;
+	private static OrderManager orderMan = null;
 
+	public static List<Order> getOrders(){
+		if(Orders == null){
+			Orders = new ArrayList<Order>();
+		}
+		return Orders;
+	}
+	
+	public static OrderManager getOrderMan(){
+		if(orderMan == null){
+			orderMan = new OrderManager();
+		}
+		return orderMan;
+	}
+	
     public List<OrderMiniDTO> getAllOrders() throws IllegalAccessException, InvocationTargetException {
     	List<OrderMiniDTO> orderEntriesDTO = new ArrayList<OrderMiniDTO>();
     	
-    	for (int i = 0; i < Orders.size(); i++) {
+    	for (int i = 0; i < getOrders().size(); i++) {
     		OrderMiniDTO temp = new OrderMiniDTO();
-        	BeanUtils.copyProperties(temp, Orders.get(i));
-        	temp.setOrdered_by(Orders.get(i).getPersonal_info().getEmail());
+        	BeanUtils.copyProperties(temp, getOrders().get(i));
+        	temp.setOrdered_by(getOrders().get(i).getPersonal_info().getEmail());
         	orderEntriesDTO.add(temp);
 		}
         return(orderEntriesDTO);
@@ -41,20 +55,20 @@ public class OrderManager {
     public OrderDetailDTO getOrder(int id) throws IllegalAccessException, InvocationTargetException {
     	OrderDetailDTO orderDetailed = new OrderDetailDTO();
     	
-    	BeanUtils.copyProperties(orderDetailed, Orders.get(id));
+    	BeanUtils.copyProperties(orderDetailed, getOrders().get(id));
     	orderDetailed.setOrder_detail(new ArrayList<OrderDetailMenuDTO>());
     	
     	//System.out.println(" the number of items in the orders " + Orders.get(id).getOrder_detail().size());
-    	for(int i = 0; i< Orders.get(id).getOrder_detail().size(); i++)
+    	for(int i = 0; i< getOrders().get(id).getOrder_detail().size(); i++)
     	{	
     		OrderDetailMenuDTO temp = new OrderDetailMenuDTO();
     	
-    		BeanUtils.copyProperties(temp, Orders.get(id).getOrder_detail().get(i));
+    		BeanUtils.copyProperties(temp, getOrders().get(id).getOrder_detail().get(i));
     		orderDetailed.getOrder_detail().add(temp);
     	}
     	
     	PersonalInfoDTO pi = new PersonalInfoDTO();
-    	BeanUtils.copyProperties(pi, Orders.get(id).getPersonal_info());
+    	BeanUtils.copyProperties(pi, getOrders().get(id).getPersonal_info());
     	orderDetailed.setOrdered_by(pi);
     	//BeanUtils.copyProperties(orderDetailed.getOrdered_by(), Orders.get(id).getPersonal_info());
     	
@@ -119,7 +133,7 @@ public class OrderManager {
 		
 		
 		oi.setId(UniqueIdGenerator.getUniqueOrderID());
-		Orders.add(oi);
+		getOrders().add(oi);
 		
 		//add customer to list of customers
 		CustomerManager.getCusMan().addCustomer(o.getPersonal_info());
@@ -155,7 +169,7 @@ public class OrderManager {
     
     private void ChangeStatus(IdDTO orderId,String status) throws Exception
     {
-    	Orders.get(orderId.getId()).setStatusManual(status);
+    	getOrders().get(orderId.getId()).setStatusManual(status);
     }
     
     public float calcAmount(Order calcOrdr) {

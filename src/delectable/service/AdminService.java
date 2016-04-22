@@ -235,7 +235,7 @@ public class AdminService {
 	   }
 	   
 	   try {
-		   OrderManager.order.DeliverOrder(orderId);
+		   OrderManager.getOrderMan().DeliverOrder(orderId);
 	   } catch (ArrayIndexOutOfBoundsException i)
 	   {
 		   ErrorDTO e = new ErrorDTO();

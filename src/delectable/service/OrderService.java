@@ -55,7 +55,7 @@ public class OrderService {
 	   }
 	   ObjectMapper mapper = new ObjectMapper();
 	   String jsonInString = new String();
-	   List<OrderMiniDTO> mi = OrderManager.order.getAllOrders();
+	   List<OrderMiniDTO> mi = OrderManager.getOrderMan().getAllOrders();
 	   jsonInString = mapper.writeValueAsString(mi);
 	   return Response.status(200).entity(jsonInString).build();
    }
@@ -69,7 +69,7 @@ public class OrderService {
 	   	
 	   ObjectMapper mapper = new ObjectMapper();
 	   String jsonOutString = new String();
-	   dispOrder = OrderManager.order.getOrder(id);
+	   dispOrder = OrderManager.getOrderMan().getOrder(id);
 	   jsonOutString = mapper.writeValueAsString(dispOrder);
 	   return Response.status(200).entity(jsonOutString).build();
 	   	
@@ -126,7 +126,7 @@ public class OrderService {
 
 	   OrderAddedDTO oa;
 	   try {
-		   oa = OrderManager.order.addOrder(order);
+		   oa = OrderManager.getOrderMan().addOrder(order);
 	   }  catch (IndexOutOfBoundsException i)
 	   {
 		   ErrorDTO e = new ErrorDTO();
@@ -209,7 +209,7 @@ public class OrderService {
 	   }
 
 	   try {
-		   OrderManager.order.CancelOrder(order);
+		   OrderManager.getOrderMan().CancelOrder(order);
 	   } catch (IndexOutOfBoundsException i)
 	   {
 		   return Response.status(400).entity(" Enter a valid order id "

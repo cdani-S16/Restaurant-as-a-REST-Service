@@ -45,7 +45,7 @@ public class ReportService {
    {
 
 	   List<ReportTypes> repTyp; 
-	   repTyp = ReportManager.reportMan.getReportTypes();
+	   repTyp = ReportManager.getReportMan().getReportTypes();
 	   String jsonOutString;
 	   ObjectMapper mapper = new ObjectMapper();
 	   jsonOutString = mapper.writeValueAsString(repTyp);
@@ -67,7 +67,7 @@ public class ReportService {
 		   Date dateobj = new Date();
 		   //System.out.println(df.format(dateobj));
 		   //oi.setOrder_date(df.format(dateobj));
-		   repOr = ReportManager.reportMan.getOrderReport(id, df.format(dateobj));
+		   repOr = ReportManager.getReportMan().getOrderReport(id, df.format(dateobj));
 		   
 		   String jsonOutString;
 		   ObjectMapper mapper = new ObjectMapper();
@@ -89,7 +89,7 @@ public class ReportService {
 		   
 		   //System.out.println(df.format(date));
 		   //oi.setOrder_date(df.format(dateobj));
-		   repOr = ReportManager.reportMan.getOrderReport(id,df.format(date));
+		   repOr = ReportManager.getReportMan().getOrderReport(id,df.format(date));
 		   
 		   String jsonOutString;
 		   ObjectMapper mapper = new ObjectMapper();
@@ -100,7 +100,7 @@ public class ReportService {
 	   else if(id == 802)
 	   {
 		   
-		   RevenueReportDTO repRev = ReportManager.reportMan.getRevenueReport(startDate, endDate);
+		   RevenueReportDTO repRev = ReportManager.getReportMan().getRevenueReport(startDate, endDate);
 		   String jsonOutString;
 		   ObjectMapper mapper = new ObjectMapper();
 		   jsonOutString = mapper.writeValueAsString(repRev);
@@ -109,7 +109,7 @@ public class ReportService {
 	   
 	   else if(id == 803)
 	   {
-		   ReportAllOrdersDTO ordRev = ReportManager.reportMan.getOrdersReport(startDate, endDate);
+		   ReportAllOrdersDTO ordRev = ReportManager.getReportMan().getOrdersReport(startDate, endDate);
 		   String jsonOutString;
 		   ObjectMapper mapper = new ObjectMapper();
 		   jsonOutString = mapper.writeValueAsString(ordRev);

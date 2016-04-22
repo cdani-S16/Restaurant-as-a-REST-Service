@@ -77,7 +77,7 @@ public class CustomerManagerTest2 {
 			item.setCount(2);
 			tempOrderList.add(item);
 			ordToADD.setOrder_detail(tempOrderList);
-			OrderManager.order.addOrder(ordToADD);
+			OrderManager.getOrderMan().addOrder(ordToADD);
 		 custList = CustomerManager.getCusMan().getAllCustomersMatching("order");
 		 assertEquals(custList.size(),1);
 	}

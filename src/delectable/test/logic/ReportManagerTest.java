@@ -27,22 +27,22 @@ public class ReportManagerTest {
 
 	@Test
 	public void testGetReportTypes() throws IllegalAccessException, InvocationTargetException {
-		int loopLength = ReportManager.reportMan.getReportTypes().size();
+		int loopLength = ReportManager.getReportMan().getReportTypes().size();
 		
 		for(int i = 0; i < loopLength; i++)
 		{
-			int curId = ReportManager.reportMan.getReportTypes().get(i).getId();
+			int curId = ReportManager.getReportMan().getReportTypes().get(i).getId();
 			if(curId == 800)
-				assertEquals(ReportManager.reportMan.getReportTypes().get(i).getName()
+				assertEquals(ReportManager.getReportMan().getReportTypes().get(i).getName()
 					,"Orders to deliver today");
 			else if(curId == 801)
-				assertEquals(ReportManager.reportMan.getReportTypes().get(i).getName()
+				assertEquals(ReportManager.getReportMan().getReportTypes().get(i).getName()
 						,"Orders to deliver tomorrow");
 			else if(curId == 802)
-				assertEquals(ReportManager.reportMan.getReportTypes().get(i).getName()
+				assertEquals(ReportManager.getReportMan().getReportTypes().get(i).getName()
 					,"Revenue report");
 			else if(curId == 803)
-				assertEquals(ReportManager.reportMan.getReportTypes().get(i).getName()
+				assertEquals(ReportManager.getReportMan().getReportTypes().get(i).getName()
 					,"Orders delivery report");
 		}
 		
@@ -55,20 +55,20 @@ public class ReportManagerTest {
 		//set surcharge
 		AdminSchrDTO scr = new AdminSchrDTO();
 		scr.setSurcharge(10);
-		MenuManager.menu.setSurcharge(scr);
+		MenuManager.getMenu().setSurcharge(scr);
 		
 		//getting the menu and order ready for the report
 		//adding sample menu item
 		MenuItemDTO tempMenuItem = new MenuItemDTO();
 		tempMenuItem.setMinimum_order(2);
 		tempMenuItem.setPrice_per_person(2.5f);
-		IdDTO testID = MenuManager.menu.AddItem(tempMenuItem);
+		IdDTO testID = MenuManager.getMenu().AddItem(tempMenuItem);
 		//System.out.println(testID.getId());
 		
 		MenuItemDTO tempMenuItem2 = new MenuItemDTO();
 		tempMenuItem2.setMinimum_order(4);
 		tempMenuItem2.setPrice_per_person(3.5f);
-		IdDTO testID2 = MenuManager.menu.AddItem(tempMenuItem2);
+		IdDTO testID2 = MenuManager.getMenu().AddItem(tempMenuItem2);
 		//System.out.println(testID2.getId());
 		
 		//System.out.println(MenuManager.menu.getAllMenuItems().get(1).getMinimum_order());
@@ -88,7 +88,7 @@ public class ReportManagerTest {
 		tempOrderList.add(item);
 		ordToADD.setOrder_detail(tempOrderList);
 		//ordToADD.setStatus("open");
-		OrderManager.order.addOrder(ordToADD);
+		OrderManager.getOrderMan().addOrder(ordToADD);
 		//System.out.println(OrderManager.order.getOrder(0).getAmount());
 		//System.out.println(OrderManager.order.getOrder(0).getSurcharge());
 		//System.out.println("hi!");
@@ -108,7 +108,7 @@ public class ReportManagerTest {
 		tempOrderList.add(item);
 		ordToADD2.setOrder_detail(tempOrderList);
 		//ordToADD2.setStatus("open");
-		OrderManager.order.addOrder(ordToADD2);
+		OrderManager.getOrderMan().addOrder(ordToADD2);
 		//System.out.println(OrderManager.order.getOrder(1).getAmount());
 		//System.out.println(OrderManager.order.getOrder(1).getSurcharge());
 		
@@ -117,7 +117,7 @@ public class ReportManagerTest {
 		RevenueReportDTO revRep = new RevenueReportDTO();
 		String startDate = "20160420";
 		String endDate = "20160425";
-		revRep = ReportManager.reportMan.getRevenueReport(startDate, endDate);
+		revRep = ReportManager.getReportMan().getRevenueReport(startDate, endDate);
 		boolean compare = false;
 		if(revRep.getFood_revenue() == 33)
 			compare = true;
@@ -130,8 +130,8 @@ public class ReportManagerTest {
 		//System.out.println(revRep.getSurcharge_revenue());
 		
 		
-		ReportOrderDTO repDTO1 = ReportManager.reportMan.getOrderReport(800, "20160420");
-		ReportOrderDTO repDTO2 = ReportManager.reportMan.getOrderReport(801, "20160420");
+		ReportOrderDTO repDTO1 = ReportManager.getReportMan().getOrderReport(800, "20160420");
+		ReportOrderDTO repDTO2 = ReportManager.getReportMan().getOrderReport(801, "20160420");
 		assertEquals(repDTO1.getOrders().size(),1);
 		assertEquals(repDTO2.getOrders().size(),0);
 		
@@ -139,7 +139,7 @@ public class ReportManagerTest {
 		ReportAllOrdersDTO repDTO3;// = new ReportAllOrdersDTO();
 		startDate = "20160419";
 		endDate = "20160425";
-		repDTO3 = ReportManager.reportMan.getOrdersReport(startDate, endDate);
+		repDTO3 = ReportManager.getReportMan().getOrdersReport(startDate, endDate);
 		compare = false;
 		//System.out.println("  ");
 		//System.out.println(repDTO3.getItem_orders().get(0).getCount());

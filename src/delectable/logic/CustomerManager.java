@@ -140,14 +140,14 @@ public class CustomerManager {
 		String email = cusDet.getEmail();
 		
 		List<CustomerOrdersDTO> cusOrd = new ArrayList<CustomerOrdersDTO>();
-		for(int i = 0; i< OrderManager.Orders.size(); i++)
+		for(int i = 0; i< OrderManager.getOrders().size(); i++)
 		{
-			if(OrderManager.Orders.get(i).getOrderedBy().equals(email))
+			if(OrderManager.getOrders().get(i).getOrderedBy().equals(email))
 			{
 				//add it  to the orders part of the customer
 				
 				CustomerOrdersDTO temp = new CustomerOrdersDTO();
-				BeanUtils.copyProperties(temp, OrderManager.Orders.get(i));
+				BeanUtils.copyProperties(temp, OrderManager.getOrders().get(i));
 				cusOrd.add(temp);
 			}
 		}
