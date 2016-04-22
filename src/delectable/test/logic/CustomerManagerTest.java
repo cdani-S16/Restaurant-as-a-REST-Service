@@ -20,21 +20,21 @@ public class CustomerManagerTest {
 	@Test
 	public void testGetAllCustomers() throws IllegalAccessException, InvocationTargetException {
 		List<CustomerDTO> cusGetALL = new ArrayList<CustomerDTO>();
-		cusGetALL = CustomerManager.cusMan.getAllCustomers();
+		cusGetALL = CustomerManager.getCusMan().getAllCustomers();
 		assertEquals(cusGetALL.size(),0);
 	}
 
 	@Test
 	public void testGetAllCustomersMatching() throws IllegalAccessException, InvocationTargetException {
 		List<CustomerDTO> cusGetALL = new ArrayList<CustomerDTO>();
-		cusGetALL = CustomerManager.cusMan.getAllCustomersMatching("test");
+		cusGetALL = CustomerManager.getCusMan().getAllCustomersMatching("test");
 		assertEquals(cusGetALL.size(),0);
 	}
 
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void testGetCustomer() throws IllegalAccessException, InvocationTargetException {
 		CustomerDTO cusGetALL = new CustomerDTO();
-		cusGetALL = CustomerManager.cusMan.getCustomer(1);
+		cusGetALL = CustomerManager.getCusMan().getCustomer(1);
 		
 	}
 

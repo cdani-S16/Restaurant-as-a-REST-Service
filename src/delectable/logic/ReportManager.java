@@ -225,10 +225,10 @@ public class ReportManager {
 	   ordsRep.setOrders_cancelled(0);
 	   ordsRep.setOrders_placed(0);
 	   ordsRep.setOrders_open(0);
-		for(int j=0; j< MenuManager.menu.getAllMenuItems().size(); j++)
+		for(int j=0; j< MenuManager.getMenu().getAllMenuItems().size(); j++)
 		{
 			ReportMenuItemOrdersDTO temp = new ReportMenuItemOrdersDTO();
-			BeanUtils.copyProperties(temp, MenuManager.menu.getMenuItem(j));
+			BeanUtils.copyProperties(temp, MenuManager.getMenu().getMenuItem(j));
 			//temp.setCount(0);
 			int tempCount = 0;
 			for(int i = 0; i< OrderManager.Orders.size(); i++)

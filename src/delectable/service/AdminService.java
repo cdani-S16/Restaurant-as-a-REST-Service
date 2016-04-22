@@ -63,7 +63,7 @@ public class AdminService {
 			System.out.println("Error Parsing: - ");
 		}
 	   mi = mapper.readValue(jsonInString.toString(), MenuItemDTO.class);
-	   IdDTO miID = MenuManager.menu.AddItem(mi);
+	   IdDTO miID = MenuManager.getMenu().AddItem(mi);
 	   
 	   String jsonOutIdString = new String();
 	   jsonOutIdString = mapper.writeValueAsString(miID);
@@ -114,7 +114,7 @@ public class AdminService {
 	   }
 	   
 	   try {
-		   MenuManager.menu.ChangePrice(mi);
+		   MenuManager.getMenu().ChangePrice(mi);
 	   } catch (ArrayIndexOutOfBoundsException i)
 	   {
 		   return Response.status(400).entity("").build();
@@ -131,7 +131,7 @@ public class AdminService {
    @Produces(MediaType.APPLICATION_JSON)
    public Response getSurcharge() throws JsonProcessingException
    {
-	   AdminSchrDTO sch = MenuManager.menu.getSurcharge();
+	   AdminSchrDTO sch = MenuManager.getMenu().getSurcharge();
 	   ObjectMapper mapper = new ObjectMapper();
 	   String jsonInString = new String();
 	   jsonInString = mapper.writeValueAsString(sch);
@@ -180,7 +180,7 @@ public class AdminService {
 	   }
 	   
 	   try {
-		   MenuManager.menu.setSurcharge(scr);
+		   MenuManager.getMenu().setSurcharge(scr);
 	   } catch (IndexOutOfBoundsException i)
 	   {
 		   return Response.status(400).entity("").build();

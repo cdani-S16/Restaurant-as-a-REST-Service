@@ -27,34 +27,51 @@ public class CustomerManager {
 	  	"phone": "312-456-7098"
 	  }]
 	 */
-	public static List<Customer> customers = new ArrayList<Customer>();
-	public static CustomerManager cusMan = new CustomerManager();
+	private static List<Customer> customers = null;
+	private static CustomerManager cusMan = null;
 	
+	private CustomerManager(){
+		
+	}
+	public static CustomerManager getCusMan(){
+		if(cusMan == null){
+			cusMan = new CustomerManager();
+		}
+		return cusMan;
+	}
+	
+	public static List<Customer> getCustomers(){
+		if(customers == null){
+			customers = new ArrayList<Customer>();
+		}
+		return customers;
+	}
+
 	public void addCustomer(PersonalInfoDTO cDto) throws IllegalAccessException, InvocationTargetException
 	{
 		//System.out.println("add cus called");
 		boolean isPresent = false;
 		boolean alwaysFalse = false;
 		int i = 0;
-		if(customers.size() == 0){
+		if(getCustomers().size() == 0){
 			
 			Customer c = new Customer();
 			//System.out.println("  Customer size 0 is called ispresent val" 
 			//			+ isPresent);
 			BeanUtils.copyProperties(c, cDto);
-			customers.add(c);
+			getCustomers().add(c);
 			return;
 		}
 		else
 		{
-			for(i = 0; i<customers.size() ; i = i+1)
+			for(i = 0; i<getCustomers().size() ; i = i+1)
 			{
 				//System.out.println(" Comparing this and ths "
 				//		+ customers.get(i).getEmail() 
 				//		+ cDto.getEmail());
-				if(customers.get(i).getEmail().equals(cDto.getEmail()))
+				if(getCustomers().get(i).getEmail().equals(cDto.getEmail()))
 				{
-					customers.get(i).updatePhoneName(cDto.getPhone(), cDto.getName());
+					getCustomers().get(i).updatePhoneName(cDto.getPhone(), cDto.getName());
 					isPresent = true;
 					//System.out.println("  value of i and ispresent in if" 
 					//		+ " " + i + " " + isPresent);
@@ -63,13 +80,13 @@ public class CustomerManager {
 				//System.out.println("the value of i " + i);
 
 			}
-			if((i == customers.size()) && (isPresent == alwaysFalse))
+			if((i == getCustomers().size()) && (isPresent == alwaysFalse))
 			{
 				Customer c = new Customer();
 				//System.out.println("  value of ispresent and i in else" 
 				//			+ isPresent + " " + i);
 				BeanUtils.copyProperties(c, cDto);
-				customers.add(c);
+				getCustomers().add(c);
 				//return;
 			}
 		}
@@ -81,11 +98,11 @@ public class CustomerManager {
 	public List<CustomerDTO> getAllCustomers() throws IllegalAccessException, InvocationTargetException
 	{
 		List<CustomerDTO> cusDTO = new ArrayList<CustomerDTO>();
-		for(int i = 0; i < customers.size(); i++)
+		for(int i = 0; i < getCustomers().size(); i++)
 		{
 			CustomerDTO temp = new CustomerDTO();
-			BeanUtils.copyProperties(temp, customers.get(i));
-			temp.setId(customers.get(i).getId());
+			BeanUtils.copyProperties(temp, getCustomers().get(i));
+			temp.setId(getCustomers().get(i).getId());
 			cusDTO.add(temp);
 		}
 		
@@ -95,15 +112,15 @@ public class CustomerManager {
 	public List<CustomerDTO> getAllCustomersMatching(String sString) throws IllegalAccessException, InvocationTargetException
 	{
 		List<CustomerDTO> cusDTO = new ArrayList<CustomerDTO>();
-		for(int i = 0; i < customers.size(); i++)
+		for(int i = 0; i < getCustomers().size(); i++)
 		{
-			if(customers.get(i).getName().contains(sString)
-					|| customers.get(i).getEmail().contains(sString) 
-					|| customers.get(i).getPhone().contains(sString))
+			if(getCustomers().get(i).getName().contains(sString)
+					|| getCustomers().get(i).getEmail().contains(sString) 
+					|| getCustomers().get(i).getPhone().contains(sString))
 			{
 			CustomerDTO temp = new CustomerDTO();
-			BeanUtils.copyProperties(temp, customers.get(i));
-			temp.setId(customers.get(i).getId());
+			BeanUtils.copyProperties(temp, getCustomers().get(i));
+			temp.setId(getCustomers().get(i).getId());
 			cusDTO.add(temp);
 			}
 		}
@@ -117,7 +134,7 @@ public class CustomerManager {
 		
 		CustomerDetailDTO cusDet = new CustomerDetailDTO();
 		
-		BeanUtils.copyProperties(cusDet, customers.get(id));
+		BeanUtils.copyProperties(cusDet, getCustomers().get(id));
 		
 		//updating order details
 		String email = cusDet.getEmail();

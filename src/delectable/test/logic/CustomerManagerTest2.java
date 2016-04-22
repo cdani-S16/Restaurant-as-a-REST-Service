@@ -34,24 +34,24 @@ public class CustomerManagerTest2 {
 	
 	@Test
 	public void testAddCustomer() throws IllegalAccessException, InvocationTargetException {
-		CustomerManager.cusMan.addCustomer(pi);
+		CustomerManager.getCusMan().addCustomer(pi);
 		//assertEquals(1,1);
 	}
 	
 	@Test
 	public void testGetAllCustomersAfterAdd() throws Exception {
 		List<CustomerDTO> cusGetALL = new ArrayList<CustomerDTO>();
-		cusGetALL = CustomerManager.cusMan.getAllCustomers();
+		cusGetALL = CustomerManager.getCusMan().getAllCustomers();
 		assertEquals(cusGetALL.size(),1);
 		CustomerDetailDTO cDetDTO; 
-		cDetDTO = CustomerManager.cusMan.getCustomer(0);
+		cDetDTO = CustomerManager.getCusMan().getCustomer(0);
 		assertEquals(cDetDTO.getEmail().equals("test@email.com"),true);
 		
-		 List<CustomerDTO> custList = CustomerManager.cusMan.getAllCustomersMatching("test");
+		 List<CustomerDTO> custList = CustomerManager.getCusMan().getAllCustomersMatching("test");
 		 assertEquals(custList.size(),1);
-		 custList = CustomerManager.cusMan.getAllCustomersMatching("John");
+		 custList = CustomerManager.getCusMan().getAllCustomersMatching("John");
 		 assertEquals(custList.size(),1);
-		 custList = CustomerManager.cusMan.getAllCustomersMatching("Random");
+		 custList = CustomerManager.getCusMan().getAllCustomersMatching("Random");
 		 assertEquals(custList.size(),0);
 		 
 		 //adding order and testing if it appeared in customers
@@ -59,7 +59,7 @@ public class CustomerManagerTest2 {
 			MenuItemDTO tempMenuItem = new MenuItemDTO();
 			tempMenuItem.setMinimum_order(2);
 			tempMenuItem.setPrice_per_person(2.5f);
-			MenuManager.menu.AddItem(tempMenuItem);
+			MenuManager.getMenu().AddItem(tempMenuItem);
 			//adding order
 			OrderDTO ordToADD = new OrderDTO();
 			ordToADD.setDelivery_address("sample address");
@@ -78,7 +78,7 @@ public class CustomerManagerTest2 {
 			tempOrderList.add(item);
 			ordToADD.setOrder_detail(tempOrderList);
 			OrderManager.order.addOrder(ordToADD);
-		 custList = CustomerManager.cusMan.getAllCustomersMatching("order");
+		 custList = CustomerManager.getCusMan().getAllCustomersMatching("order");
 		 assertEquals(custList.size(),1);
 	}
 

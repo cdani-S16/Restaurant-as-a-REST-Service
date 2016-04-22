@@ -18,10 +18,26 @@ import delectable.pojo.MenuItem;
 public class MenuManager {
 	
 
-	private static List<MenuItem> menuItems = new ArrayList<MenuItem>();
-	public static MenuManager menu = new MenuManager();
+	private static List<MenuItem> menuItems;
+	private static MenuManager menu = null;
 	private static float surcharge = 0;
 
+	public static MenuManager getMenu(){
+		if(menu == null){
+			menu = new MenuManager();
+		}
+		return menu;
+	}
+	
+	public static List<MenuItem> getMenuItems()
+	{
+		if(menuItems == null)
+		{
+			menuItems = new ArrayList<MenuItem>();
+		}
+		return menuItems;
+	}
+	
 	public MenuManager()
 	{
 		//menuItems = new ArrayList<MenuItem>();
@@ -37,7 +53,7 @@ public class MenuManager {
 		//System.out.println(df.format(dateobj));
 		mi.setCreate_date(df.format(dateobj));
 		mi.setLast_modified_date(df.format(dateobj));
-		menuItems.add(mi);
+		getMenuItems().add(mi);
 
 		idObj.setId(mi.getId());
 		return idObj;
@@ -50,10 +66,10 @@ public class MenuManager {
     	List<MenuItemIdDTO> menuItemsDTO = new ArrayList<MenuItemIdDTO>();
     	
     	
-    	for (int i = 0; i < menuItems.size(); i++) {
+    	for (int i = 0; i < getMenuItems().size(); i++) {
 
     		MenuItemIdDTO temp = new MenuItemIdDTO();
-        	BeanUtils.copyProperties(temp, menuItems.get(i));
+        	BeanUtils.copyProperties(temp, getMenuItems().get(i));
         	menuItemsDTO.add(temp);
 		}
 
@@ -63,20 +79,20 @@ public class MenuManager {
     public MenuItemDetailDTO getMenuItem(int id) throws IllegalAccessException, InvocationTargetException
     {
     	MenuItemDetailDTO miDto = new MenuItemDetailDTO();
-    	BeanUtils.copyProperties(miDto,menuItems.get(id));
+    	BeanUtils.copyProperties(miDto,getMenuItems().get(id));
     	//BeanUtils.copyProperties(miDto.categories, menuItems.get(id).getCategories());
     	return miDto;
     	
     }
 
 	public void ChangePrice(MenuItemIdPriceDTO mi) {
-		if(mi.getId() > menuItems.size())
+		if(mi.getId() > getMenuItems().size())
 			throw new ArrayIndexOutOfBoundsException();
 		else{
-			menuItems.get(mi.getId()).setPrice_per_person(mi.getPrice_per_person());
+			getMenuItems().get(mi.getId()).setPrice_per_person(mi.getPrice_per_person());
 			DateFormat df = new SimpleDateFormat("yyyyMMdd");
 			Date dateobj = new Date();
-			menuItems.get(mi.getId()).setLast_modified_date(df.format(dateobj));
+			getMenuItems().get(mi.getId()).setLast_modified_date(df.format(dateobj));
 		}
 	}
 	
@@ -93,6 +109,6 @@ public class MenuManager {
 	
 	public float getPrice(int menuId)
 	{
-		return menuItems.get(menuId).getPrice_per_person();
+		return getMenuItems().get(menuId).getPrice_per_person();
 	}
 }

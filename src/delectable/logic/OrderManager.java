@@ -81,7 +81,7 @@ public class OrderManager {
     		OrderDetailMenu temp = new OrderDetailMenu();
     	
     		BeanUtils.copyProperties(temp, o.getOrder_detail().get(i));
-    		if(temp.getCount() < MenuManager.menu.getMenuItem(temp.getId()).getMinimum_order())
+    		if(temp.getCount() < MenuManager.getMenu().getMenuItem(temp.getId()).getMinimum_order())
     			throw new NumberFormatException("Min order is not satisfied");
     		od.add(temp);
     	}
@@ -122,7 +122,7 @@ public class OrderManager {
 		Orders.add(oi);
 		
 		//add customer to list of customers
-		CustomerManager.cusMan.addCustomer(o.getPersonal_info());
+		CustomerManager.getCusMan().addCustomer(o.getPersonal_info());
 		   
     	OrderAddedDTO oa = new OrderAddedDTO();
     	oa.setId(oi.getId());
@@ -163,7 +163,7 @@ public class OrderManager {
     	for(int i = 0; i< calcOrdr.getOrder_detail().size() ; i++)
 		{
     		int menuId = calcOrdr.getOrder_detail().get(i).getId();
-			totAmt = totAmt + (MenuManager.menu.getPrice(menuId) * calcOrdr.getOrder_detail().get(i).getCount());
+			totAmt = totAmt + (MenuManager.getMenu().getPrice(menuId) * calcOrdr.getOrder_detail().get(i).getCount());
 		}
     	
     	return totAmt;

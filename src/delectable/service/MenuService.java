@@ -42,7 +42,7 @@ public class MenuService {
 
 		   ObjectMapper mapper = new ObjectMapper();
 		   String jsonInString = new String();
-		   List<MenuItemIdDTO> mi = MenuManager.menu.getAllMenuItems();
+		   List<MenuItemIdDTO> mi = MenuManager.getMenu().getAllMenuItems();
 		   jsonInString = mapper.writeValueAsString(mi);
 		   return Response.status(200).entity(jsonInString).build();
 	   }
@@ -54,7 +54,7 @@ public class MenuService {
  
 		   MenuItemDetailDTO mn = new MenuItemDetailDTO();
 		   mn.id = id;
-		   mn = MenuManager.menu.getMenuItem(id);
+		   mn = MenuManager.getMenu().getMenuItem(id);
 		   ObjectMapper mapper = new ObjectMapper();
 		   String jsonInString = new String();
 		   jsonInString = mapper.writeValueAsString(mn);

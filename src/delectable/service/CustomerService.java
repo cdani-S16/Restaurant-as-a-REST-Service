@@ -40,7 +40,7 @@ public class CustomerService {
 	   }
 	   if(noparam){
 		   List<CustomerDTO> cDto = new ArrayList<CustomerDTO>();
-		   cDto = CustomerManager.cusMan.getAllCustomers();
+		   cDto = CustomerManager.getCusMan().getAllCustomers();
 		   String jsonOut;
 		   ObjectMapper mapper = new ObjectMapper();
 		   jsonOut = mapper.writeValueAsString(cDto);
@@ -52,7 +52,7 @@ public class CustomerService {
 		   //email id, name , phone number
 		   System.out.println("paramter passed");
 		   List<CustomerDTO> cDto = new ArrayList<CustomerDTO>();
-		   cDto = CustomerManager.cusMan.getAllCustomersMatching(x);
+		   cDto = CustomerManager.getCusMan().getAllCustomersMatching(x);
 		   String jsonOut;
 		   ObjectMapper mapper = new ObjectMapper();
 		   jsonOut = mapper.writeValueAsString(cDto);
@@ -69,7 +69,7 @@ public class CustomerService {
    public Response getCustomerById(@PathParam("cid") int id) throws IllegalAccessException, InvocationTargetException, JsonProcessingException
    {
 	   CustomerDetailDTO mn = new CustomerDetailDTO();
-	   mn = CustomerManager.cusMan.getCustomer(id);
+	   mn = CustomerManager.getCusMan().getCustomer(id);
 	   ObjectMapper mapper = new ObjectMapper();
 	   String jsonOutString = mapper.writeValueAsString(mn);
 
