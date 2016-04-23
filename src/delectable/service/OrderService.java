@@ -84,7 +84,15 @@ public class OrderService {
 	   	
 	   ObjectMapper mapper = new ObjectMapper();
 	   String jsonOutString = new String();
+	   try{
 	   dispOrder = OrderManager.getOrderMan().getOrder(id);
+	   }catch(IndexOutOfBoundsException e)
+	   {
+		   ErrorDTO eDTO = new ErrorDTO();
+		   eDTO.setError("Invalid order id");
+		   jsonOutString = mapper.writeValueAsString(eDTO);
+		   return Response.status(400).entity(jsonOutString).build();
+	   }
 	   jsonOutString = mapper.writeValueAsString(dispOrder);
 	   return Response.status(200).entity(jsonOutString).build();
 	   	

@@ -63,11 +63,22 @@ public class CustomerService {
    @Produces(MediaType.APPLICATION_JSON)
    public Response getCustomerById(@PathParam("cid") int id) throws IllegalAccessException, InvocationTargetException, JsonProcessingException
    {
-	   CustomerDetailDTO mn = new CustomerDetailDTO();
-	   mn = CustomerManager.getCusMan().getCustomer(id);
 	   ObjectMapper mapper = new ObjectMapper();
-	   String jsonOutString = mapper.writeValueAsString(mn);
-
+	   String jsonOutString;
+	   CustomerDetailDTO mn = new CustomerDetailDTO();
+	   try{
+		   mn = CustomerManager.getCusMan().getCustomer(id);
+	   }
+	   catch( IndexOutOfBoundsException i)
+	   {
+		   ErrorDTO e = new ErrorDTO();
+		   e.setError("The id does not exist");
+		   mapper = new ObjectMapper();
+		   jsonOutString = new String();
+		   jsonOutString = mapper.writeValueAsString(e);
+		   return Response.status(400).entity(jsonOutString).build();
+	   }
+	   jsonOutString = mapper.writeValueAsString(mn);
 	   return Response.status(200).entity(jsonOutString).build();
    }
    	

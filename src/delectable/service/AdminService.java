@@ -206,16 +206,7 @@ public class AdminService {
 	   
 	   try {
 		   OrderManager.getOrderMan().DeliverOrder(orderId);
-	   } catch (ArrayIndexOutOfBoundsException i)
-	   {
-		   ErrorDTO e = new ErrorDTO();
-		   e.setError("The id does not exist");
-		   mapper = new ObjectMapper();
-		   String jsonOutString = new String();
-		   jsonOutString = mapper.writeValueAsString(e);
-		   return Response.status(400).entity(jsonOutString).build();
-	   }
-	   catch( IndexOutOfBoundsException i)
+	   } catch( IndexOutOfBoundsException i)
 	   {
 		   ErrorDTO e = new ErrorDTO();
 		   e.setError("The id does not exist");

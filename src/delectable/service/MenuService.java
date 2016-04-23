@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import delectable.dto.ErrorDTO;
 import delectable.dto.IdDTO;
 import delectable.dto.MenuItemDetailDTO;
 import delectable.dto.MenuItemIdDTO;
@@ -53,12 +54,21 @@ public class MenuService {
 	   public Response getMenuItem(@PathParam("mid") int id) throws JsonProcessingException, IllegalAccessException, InvocationTargetException{
  
 		   MenuItemDetailDTO mn = new MenuItemDetailDTO();
-		   mn.id = id;
-		   mn = MenuManager.getMenu().getMenuItem(id);
 		   ObjectMapper mapper = new ObjectMapper();
-		   String jsonInString = new String();
-		   jsonInString = mapper.writeValueAsString(mn);
-		   return Response.status(200).entity(jsonInString).build();
+		   String jsonOutString = new String();
+		   mn.id = id;
+		   try{
+			   mn = MenuManager.getMenu().getMenuItem(id);
+		   }catch(IndexOutOfBoundsException e)
+		   {
+			   ErrorDTO eDTO = new ErrorDTO();
+			   eDTO.setError("Invalid menu id");
+			   jsonOutString = mapper.writeValueAsString(eDTO);
+			   return Response.status(400).entity(jsonOutString).build();
+		   }
+
+		   jsonOutString = mapper.writeValueAsString(mn);
+		   return Response.status(200).entity(jsonOutString).build();
 	   }
 
 }

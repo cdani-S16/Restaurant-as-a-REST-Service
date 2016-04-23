@@ -108,7 +108,9 @@ public class OrderManager {
 		//delivDate = calendar.getTime();
 		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || 
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-			oi.setSurcharge(((MenuManager.getSurcharge().getSurcharge()/100)) * oi.getAmount());
+			{
+				oi.setSurcharge((MenuManager.getSurcharge().getSurcharge()/100) * oi.getAmount());
+			}
 		}
 		
 		oi.setId(UniqueIdGenerator.getUniqueOrderID());

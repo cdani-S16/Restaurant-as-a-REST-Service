@@ -6,7 +6,7 @@ public class OrderMiniDTO {
 	private String order_date;
 	private String delivery_date;
 	private float amount;
-	private int surcharge;
+	private float surcharge;
 	private String status;
 	private String ordered_by;
 	
@@ -34,10 +34,10 @@ public class OrderMiniDTO {
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
-	public int getSurcharge() {
+	public float getSurcharge() {
 		return surcharge;
 	}
-	public void setSurcharge(int surcharge) {
+	public void setSurcharge(float surcharge) {
 		this.surcharge = surcharge;
 	}
 	public String getStatus() {

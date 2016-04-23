@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import delectable.dto.ErrorDTO;
 import delectable.dto.OrderDetailDTO;
 import delectable.dto.ReportAllOrdersDTO;
 import delectable.dto.PersonalInfoDTO;
@@ -113,7 +114,13 @@ public class ReportService {
 		   return Response.status(200).entity(jsonOutString).build();
 	   }
 	   else
-		   return Response.status(400).entity("").build();
+	   {
+		   ErrorDTO eDTO = new ErrorDTO();
+		   eDTO.setError("Invalid report id");
+		   ObjectMapper mapper = new ObjectMapper();
+		   String jsonOutString = mapper.writeValueAsString(eDTO);
+		   return Response.status(400).entity(jsonOutString).build();
+	   }
    }
    	
    
